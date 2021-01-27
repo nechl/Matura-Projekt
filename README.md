@@ -1,8 +1,3 @@
-# Matura-Projekt
-This is the Repository of the Matura Project 2021
+# Matura Project 2021
 
-It will contain an step-by-step instruction to follow to rebuild the project.
-
-All code is included, but you need to have [Python](www.python.org) installed
-
-This is open to use
+This is the Matura Project of students of the Kanti Baden.
