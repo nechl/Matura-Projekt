@@ -1,7 +1,7 @@
 from helping_f import helping_functions
 
 # Here you can add a certain debug level, so that you are able to edit the comments which get called, if printd is higher than DEBUG_LEVEL, it gets printed, else it will be skipped.
-DEBUG_LEVEL = 2
+DEBUG_LEVEL = 1
 
 printd = helping_functions(DEBUG_LEVEL).printd
 
