@@ -3,7 +3,7 @@ import mysql.connector as mysql
 from tabulate import tabulate
 from credentials import return_credentials
 from helping_f import helping_functions
-from datetime import datetime
+from datetime import datetime, timedelta
 import time
 DEBUG_LEVEL = 0
 
@@ -26,9 +26,6 @@ print(db_connection.get_server_info())
 #get the db cursor
 cursor = db_connection.cursor()
 
-# get the db cursor
-cursor = db_connection.cursor()
-
 #get the database information
 cursor.execute("select database();")
 database_name = cursor.fetchone()
@@ -43,20 +40,67 @@ printd(tabulate(rows, headers=cursor.column_names),1)
 
 orders={}
 
-for i in range(len(rows)):
-    order = {"user":rows[i][1], "time_finish":rows[i][2], "food_type":rows[i][3], "food_amount":rows[i][4], "time_ordered":rows[i][5]}
-    orders[str(i)] = order
+def fetch_data(): 
+    db_connection = mysql.connect(host=HOST, database=DATABASE, user=USER, password=PASSWORD)
+    print(db_connection.get_server_info())
 
-printd((order["user"], order["time_finish"], order["food_type"], order["food_amount"], order["time_ordered"]),1)
-printd(orders,1)
-while True:
-    #fetch data every 5min to decrease newtwork load
+    cursor = db_connection.cursor()  
+    #fetch the database
+    cursor.execute("select * from orders")
+    #get all selected rows
+    rows = cursor.fetchall()
+    #print all orders(rows) in a table with tabulate
+    printd(tabulate(rows, headers=cursor.column_names),0)
+    #print(rows)
+    orders={}
+    orders_for_tabulate = []
+    for i in range(len(rows)):
+        order = {"user":rows[i][1], "time_finish":rows[i][2], "food_type":rows[i][3], "food_amount":rows[i][4], "time_ordered":rows[i][5]}
+        if order["time_finish"] > datetime.now():
+            #print(order["food_type"], " added to cook")
+            orders[str(len(orders))] = order #if it is the first element added(0 elements present) it HAS to be the zeroth element for processing
+            orders_for_tabulate.append(rows[i])
+        else:
+            pass
 
-for i in range(len(orders)):
-    printd(orders[str(i)],1)
-    if orders[str(i)]["time_finish"] > now:
-        print(orders[str(i)]["user"],"'s food is going to be prepared")
+    printd((order["user"], order["time_finish"], order["food_type"], order["food_amount"], order["time_ordered"]),1)
+    printd(orders,1)
+    
+    for i in range(len(orders)):
+        printd(orders[str(i)],1)
+        if orders[str(i)]["time_finish"] > now:
+            #print(orders[str(i)]["user"],"'s food is going to be prepared")
+            pass
+        elif orders[str(i)]["time_finish"] < now:
+            #print(orders[str(i)]["user"],"'s food has been prepared")
+            pass
+    #orders contain now all orders
+    print("CURRENT ORDERS:")
+    print("------------------------------------------------")
+    print(tabulate(orders_for_tabulate, cursor.column_names))
 
+    cursor.close()
+    db_connection.close()
+    return orders
+
+
+now = datetime.now()
+print("[+]",now.strftime("%d.%m.%Y, %H:%M"))
+
+try:
+    while True:
+        current_time = datetime.now()
+        if ((now + timedelta(minutes=1)).strftime("%d.%m.%Y, %H:%M")) == current_time.strftime("%d.%m.%Y, %H:%M"):
+            print("[+]Two minutes passed, prepare to fetch new orders")
+            fetch = fetch_data()
+            #print("In the current fetch: ",fetch)
+            now = datetime.now()
+        else:
+            print("[+]Sleeping...")
+            time.sleep(15)
+            
+except KeyboardInterrupt:
+    pass
 # close the cursor
 cursor.close()
 # close the DB connection
