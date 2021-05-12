@@ -1,16 +1,24 @@
 #first file
 import mysql.connector as mysql
+import json
+import time
+
 from tabulate import tabulate
 from credentials import return_credentials
 from helping_f import helping_functions
 from datetime import datetime, timedelta
-import time
 DEBUG_LEVEL = 0
 
 now = datetime.now() # time object
 printd = helping_functions(DEBUG_LEVEL).printd
 credentials = return_credentials()
-
+try:
+    f = open("data_recipe.json")
+    recipe_data = json.load(f)
+except FileNotFoundError as e:
+    print("Fatal Error - Recipes not loaded...")
+    print("abort")
+    print(e)
 #Credentials:
 HOST = credentials["HOST"]
 DATABASE = credentials["DATABASE"]
@@ -50,7 +58,7 @@ def fetch_data():
     #get all selected rows
     rows = cursor.fetchall()
     #print all orders(rows) in a table with tabulate
-    printd(tabulate(rows, headers=cursor.column_names),0)
+    #printd(tabulate(rows, headers=cursor.column_names),0)
     #print(rows)
     orders={}
     orders_for_tabulate = []
@@ -75,13 +83,13 @@ def fetch_data():
             #print(orders[str(i)]["user"],"'s food has been prepared")
             pass
     #orders contain now all orders
-    print("CURRENT ORDERS:")
-    print("------------------------------------------------")
-    print(tabulate(orders_for_tabulate, cursor.column_names))
+    #print("CURRENT ORDERS:")
+    #print("------------------------------------------------")
+    #print(tabulate(orders_for_tabulate, cursor.column_names))
 
     cursor.close()
     db_connection.close()
-    return orders
+    return orders, orders_for_tabulate
 
 
 now = datetime.now()
@@ -92,8 +100,9 @@ try:
         current_time = datetime.now()
         if ((now + timedelta(minutes=1)).strftime("%d.%m.%Y, %H:%M")) == current_time.strftime("%d.%m.%Y, %H:%M"):
             print("[+]Two minutes passed, prepare to fetch new orders")
-            fetch = fetch_data()
-            #print("In the current fetch: ",fetch)
+            orders, orders_old_format = fetch_data()
+            #print("In the current fetch: ",orders)
+            print(tabulate(orders_old_format, headers=cursor.column_names))
             now = datetime.now()
         else:
             print("[+]Sleeping...")

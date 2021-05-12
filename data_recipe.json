@@ -1,0 +1,14 @@
+{
+    "recipe":[
+    {
+        "compound": "hoernli",
+        "time_in_water": 10,
+        "water_amount_per_100_g": 1000
+    },
+    {
+        "compound": "fusili",
+        "time_in_water": 9,
+        "water_amount_per_100_g": 1000        
+    }
+    ]
+}
