@@ -4,12 +4,15 @@ try:
     import time
 except ModuleNotFoundError:
     print("Not all modules required were found...")
+
 motor_pin_A1 = 17
 motor_pin_A2 = 27
 
 motor_pin_B1 = 5
 motor_pin_B2 = 6
 
+calibratePinUp = 0
+calibratePinDown = 0
 delay = 0.01
 # old delay 0.01
 def setup():
@@ -19,13 +22,9 @@ def setup():
     GPIO.setup(motor_pin_A2, GPIO.OUT)
     GPIO.setup(motor_pin_B1, GPIO.OUT)
     GPIO.setup(motor_pin_B2, GPIO.OUT)
-        
-def DownStep(cm):
-    for i in range(cm * 133):
-        setStepper(1,0,1,0)
-        setStepper(0,1,1,0)
-        setStepper(0,1,0,1)
-        setStepper(1,0,0,1)
+
+    GPIO.setup(calibratePinUp, GPIO.IN)
+    GPIO.setup(calibratePinDown, GPIO.IN)
 
 def UpStep(cm):
     for i in range(cm * 133):
@@ -33,6 +32,25 @@ def UpStep(cm):
         setStepper(0,1,0,1)
         setStepper(0,1,1,0)
         setStepper(1,0,1,0)
+        
+def DownStep(cm):
+    for i in range(cm * 133):
+        setStepper(1,0,1,0)
+        setStepper(0,1,1,0)
+        setStepper(0,1,0,1)
+        setStepper(1,0,0,1
+
+def UpStepOld():
+    setStepper(1,0,0,1)
+    setStepper(0,1,0,1)
+    setStepper(0,1,1,0)
+    setStepper(1,0,1,0)
+
+def DownStepOld():
+    setStepper(1,0,1,0)
+    setStepper(0,1,1,0)
+    setStepper(0,1,0,1)
+    setStepper(1,0,0,1)
     
 def setStepper(in1, in2, in3, in4):
     GPIO.output(motor_pin_A1, in1)
@@ -41,6 +59,22 @@ def setStepper(in1, in2, in3, in4):
     GPIO.output(motor_pin_B2, in4)
     time.sleep(delay)
 
+def calcStart():
+    while not GPIO.input(calibratePinUp) == HIGH: #important to make a pullup resistance
+        UpStepOld()
+
+    if GPIO.input(calibratePinUp) == HIGH:
+        calibrateCountSteps = 0
+
+    while not GPIO.input(calibratePinDown) == HIGH: # Important to make a pullup resistance
+        DownStepOld()
+        calibrateCountSteps += 1
+
+    if GPIO.input(calibratePinDown) == HIGH:
+        print("Made all the necessary steps: ", calibrateCountSteps)
+    
+    return calibrateCountSteps
+    
 def loop():
     while True:        
         x =str(input("input[1 = down ; 2 = up]: "))
@@ -64,6 +98,7 @@ def destroy():
 
 if __name__ == '__main__':
     setup()
+    heightInSteps = calcStart()
     try:
         loop()
     except KeyboardInterrupt:
