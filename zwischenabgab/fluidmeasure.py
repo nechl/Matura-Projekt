@@ -14,6 +14,7 @@ time_new = 0.0
 try:
     f = open("log_fluidmeter.txt", "a")
 except:
+    print("Unable to open/create log file.")
     pass
 
 print("Water Flow - Approximate")

@@ -59,7 +59,7 @@ def setStepper(in1, in2, in3, in4):
     GPIO.output(motor_pin_B2, in4)
     time.sleep(delay)
 
-def calcStart():
+def calibrate():
     while not GPIO.input(calibratePinUp) == HIGH: #important to make a pullup resistance
         UpStepOld()
 
@@ -72,7 +72,7 @@ def calcStart():
 
     if GPIO.input(calibratePinDown) == HIGH:
         print("Made all the necessary steps: ", calibrateCountSteps)
-    
+
     return calibrateCountSteps
     
 def loop():
@@ -98,7 +98,7 @@ def destroy():
 
 if __name__ == '__main__':
     setup()
-    heightInSteps = calcStart()
+    heightInSteps = calibrate()
     try:
         loop()
     except KeyboardInterrupt:
