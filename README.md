@@ -1,9 +1,13 @@
 # Matura Project 2021
 
-This is the Matura Project of students of the Kanti Baden.
+## KochBot
 
+In the branch (https://github.com/nechl/Matura-Projekt/tree/zwischenabgabe)[https://github.com/nechl/Matura-Projekt/tree/zwischenabgabe], you can access all files which are important until the Zwischenabgabe
 
-You need to install via pip:
+To recreate this project, you need the (plan)[#], which is not online yet.
+
+The whole project works with python, the webserver wiht Flask, which has to be installed, because it is not installed by default.
+
 > pip install flask
 
 > pip install python-dotenv

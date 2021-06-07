@@ -1,0 +1,14 @@
+<html>
+    <head>
+        {% if title %}
+        <title>{{ title }} - KochBot</title>
+        {% else %}
+        <title>KochBot</title>
+        {% endif %}
+    </head>
+    <body>
+        <div>KochBot: <a href="/index">Home</a></div>
+        <hr>
+        {% block content %}{% endblock %}
+    </body>
+</html>

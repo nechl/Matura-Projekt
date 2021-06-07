@@ -3,3 +3,7 @@ credentials.py
 test.py
 test.py
 __pycache__/helping_f.cpython-39.pyc
+website_backend/app/__pycache__/__init__.cpython-39.pyc
+website_backend/app/__pycache__/__init__.cpython-39.pyc
+*.pyc
+website_backend/app/__pycache__/__init__.cpython-39.pyc
