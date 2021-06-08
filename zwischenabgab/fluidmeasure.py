@@ -20,7 +20,7 @@ print("Water Flow - Approximate")
 print("Control C to exit")
 
 now = datetime.datetime.now()
-f.write("\nInit of Flowmeter @ ",now.strftime("%H:%M:%S - %d.%m.%Y"))
+f.write("\nInit of Flowmeter @ "+ now.strftime("%H:%M:%S - %d.%m.%Y"))
 
 while True:
     time_new = time.time() + 10
@@ -40,10 +40,11 @@ while True:
     print("\nLiters / min", round(rate_cnt * constant,4))
     print("Total Liters", round(tot_cnt * constant, 4))
     print("Time (min & clock) ", minutes, "\t", time.asctime(time.localtime(time.time())),"\n")
-    
-    f.write("\nLiters / ,min", round(rate_cnt * constant,4))
-    f.write("\nTotal Liters", round(tot_cnt * constant,4))
-    f.write("\nTime (min & clock) ", minutes, "\t", datetime.datetime.now().strftime("%H:%M:%S - %d.%m.%Y"))
+    f.write("\n")
+    f.write("\nLiters / min" + str(round(rate_cnt * constant,4)) )
+    f.write("\nTotal Liters" + str(round(tot_cnt * constant,4)))
+    f.write("\nTime (min & clock) "+ str(minutes) + "\t" + str(datetime.datetime.now().strftime("%H:%M:%S - %d.%m.%Y")))
+    f.write("\n")
 GPIO.cleanup()
 print("Done")
 f.close()
