@@ -27,18 +27,18 @@ def setup():
     GPIO.setup(calibratePinDown, GPIO.IN)
 
 def UpStep(cm):
-    for i in range(cm * 133):
+    for i in range(100):
         setStepper(1,0,0,1)
         setStepper(0,1,0,1)
         setStepper(0,1,1,0)
         setStepper(1,0,1,0)
         
 def DownStep(cm):
-    for i in range(cm * 133):
+    for i in range(100):
         setStepper(1,0,1,0)
         setStepper(0,1,1,0)
         setStepper(0,1,0,1)
-        setStepper(1,0,0,1
+        setStepper(1,0,0,1)
 
 def UpStepOld():
     setStepper(1,0,0,1)
@@ -60,17 +60,17 @@ def setStepper(in1, in2, in3, in4):
     time.sleep(delay)
 
 def calcStart():
-    while not GPIO.input(calibratePinUp) == HIGH: #important to make a pullup resistance
+    while not GPIO.input(calibratePinUp) ==GPIO. HIGH: #important to make a pullup resistance
         UpStepOld()
 
-    if GPIO.input(calibratePinUp) == HIGH:
+    if GPIO.input(calibratePinUp) ==GPIO. HIGH:
         calibrateCountSteps = 0
 
-    while not GPIO.input(calibratePinDown) == HIGH: # Important to make a pullup resistance
+    while not GPIO.input(calibratePinDown) == GPIO.HIGH: # Important to make a pullup resistance
         DownStepOld()
         calibrateCountSteps += 1
 
-    if GPIO.input(calibratePinDown) == HIGH:
+    if GPIO.input(calibratePinDown) ==GPIO. HIGH:
         print("Made all the necessary steps: ", calibrateCountSteps)
     
     return calibrateCountSteps
@@ -98,7 +98,7 @@ def destroy():
 
 if __name__ == '__main__':
     setup()
-    heightInSteps = calcStart()
+    #heightInSteps = calcStart()
     try:
         loop()
     except KeyboardInterrupt:

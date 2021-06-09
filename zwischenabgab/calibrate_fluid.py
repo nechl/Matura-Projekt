@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 import time, sys, datetime
 GPIO.setmode(GPIO.BCM)
 
+# it took 16 seconds for 1[L] of water to pass through, the 
 inpt = 16
 
 GPIO.setup(inpt, GPIO.IN)

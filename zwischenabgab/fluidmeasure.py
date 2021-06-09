@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 import time, sys, datetime
 GPIO.setmode(GPIO.BCM)
 
-inpt = 21
+inpt = 16
 
 GPIO.setup(inpt, GPIO.IN)
 rate_cnt = 0
