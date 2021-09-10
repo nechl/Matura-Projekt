@@ -1,14 +1,35 @@
 <html>
     <head>
+        <link rel="stylesheet" href=" {{ url_for('static', filename='style/style.css') }}">
         {% if title %}
         <title>{{ title }} - KochBot</title>
         {% else %}
-        <title>KochBot</title>
+        <title></title>
         {% endif %}
     </head>
+
     <body>
-        <div>KochBot: <a href="/index">Home</a></div>
+        <div>
+            KochBot: 
+                <a href="{{ url_for('index') }}">Home</a>
+                {% if current_user.is_anonymous %}
+                <a href="{{ url_for('login') }}">Login</a>
+                {% else %}
+                <a href="{{ url_for('user', username=current_user.username) }}">Profile</a>
+                <a href="{{ url_for('logout') }}">Logout</a>
+                {% endif %}
+                <a href="{{ url_for('order') }}">Order Food</a>
+        </div>
         <hr>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
         {% block content %}{% endblock %}
     </body>
 </html>

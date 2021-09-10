@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Order Food!</h1>
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p> 
+            {{ form.material.label }}<br>
+            {{ form.material() }}<br>
+        </p>
+        <p>
+            {{ form.amount.label }}<br>
+            {{ form.amount() }}<br>
+        </p>
+        <p>
+            {{ form.time.label }}<br>
+            {{ form.time() }}<br>
+        </p>
+        
+        <p>{{ form.submit() }}</p>
+    </form>
+    {% for order in orders %}
+    <p>
+        {{ order.author.username }} orders: <b>{{ order.food }}</b>
+    </p>
+    {% endfor %}
+{% endblock %}
