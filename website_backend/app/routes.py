@@ -3,8 +3,7 @@ from werkzeug.urls import url_parse
 from app import app, db
 from app.forms import LoginForm, AddOrder, EditProfileForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User
-from app.models import Order
+from app.models import User, Order
 from datetime import datetime
 
 @app.route('/')
@@ -54,10 +53,7 @@ def edit_profile():
 @login_required
 def user(username):
     user = User.query.filter_by(username=username).first_or_404()
-    orders = [
-        {'author': user, 'food': 'Testhörnli #1'},
-        {'author': user, 'food': 'Testhörnli #2'}
-    ]
+    orders = Order.query.order_by(Order.finished_at.asc()).all()
     return render_template('user.html', user=user, orders=orders)
 
 @app.route('/order', methods=['GET', 'POST'])
