@@ -1,7 +1,7 @@
 from flask import render_template, flash, redirect, url_for, request
 from werkzeug.urls import url_parse
 from app import app, db
-from app.forms import LoginForm, AddOrder, EditProfileForm, EditOrderForm
+from app.forms import LoginForm, AddOrder, EditProfileForm, EditOrderForm, DeleteForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Order
 from datetime import datetime
@@ -70,12 +70,23 @@ def edit_order(id):
         db.session.add(order)
         db.session.commit()
         flash('Your changes have been saved')
+        return redirect( url_for('index'))
     elif request.method == "GET":
         form.amount.data = order.amount
         form.time.data = order.finished_at
     return render_template('edit_order.html', title="Edit order", form=form, order=order)
         
+@app.route('/delete_order/<id>', methods=["GET", "POST"])
+@login_required
+def delete_order(id):
+    form = DeleteForm()
+    order = Order.query.filter_by(id=id).first_or_404()
+    if form.validate_on_submit():
+        Order.query.filter_by(id=id).delete()
+        db.session.commit()
+        return redirect(url_for('index'))
 
+    return render_template('delete_order.html', title="Delete Order", form=form, order=order)
 
 @app.route('/order', methods=['GET', 'POST'])
 @login_required

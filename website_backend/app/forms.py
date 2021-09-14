@@ -25,3 +25,6 @@ class EditOrderForm(FlaskForm):
     amount = IntegerField("How much do you want in [g]?", validators=[DataRequired()])
     time = DateField("On what time do you want it?", validators=[DataRequired()])
     submit = SubmitField('Save Order')
+
+class DeleteForm(FlaskForm):
+    submit = SubmitField("Do you want to delete that order?")

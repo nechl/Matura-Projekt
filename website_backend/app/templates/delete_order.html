@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Delete Order {{ order.id }}</h1>
+    <p>Order details:  {{ order.amount }}[g] of {{ order.food }}, finished at {{ order.finished_at.strftime("%d/%m/%Y, %H:%M:%S") }}</p>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+
+        
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}
