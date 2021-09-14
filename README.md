@@ -2,22 +2,10 @@
 
 ## KochBot
 
-In the branch (https://github.com/nechl/Matura-Projekt/tree/zwischenabgabe)[https://github.com/nechl/Matura-Projekt/tree/zwischenabgabe], you can access all files which are important until the Zwischenabgabe
+This is a final project of two students of the KSBA Baden which will be graded and fully counted in the final certificate.
 
-To recreate this project, you need the (plan)[#], which is not online yet.
+We try to create a cookbot based on a raspberry pi, with which we, in the end, can cook pasta remotly.
 
-The whole project works with python, the webserver wiht Flask, which has to be installed, because it is not installed by default.
+You can order pasta via an UI based on Flask. The reason why we picked Flask is that it is an extension to Python, which will fit perfectly with our instructions for the hardware via raspberry, which will be written in Python too.
 
-> pip install flask
-
-> pip install python-dotenv
-
-> pip install flask-wtf
-
-> pip install flask-sqlalchemy
-
-> pip install flask-migrate
-
-> pip install flask-login
-
-> pip install email-validator
+There is the functionality to edit orders on the fly, so that you don't have to tweak the database itself.
