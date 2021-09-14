@@ -16,3 +16,9 @@ website_backend/migrations/alembic.ini
 *.pyc
 *.pyc
 *.pyc
+website_backend/app/__pycache__/__init__.cpython-39.pyc
+website_backend/__pycache__/website.cpython-39.pyc
+*.pyc
+*.pyc
+website_backend/__pycache__/website.cpython-39.pyc
+website_backend/app/__pycache__/__init__.cpython-39.pyc
