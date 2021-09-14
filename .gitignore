@@ -15,3 +15,4 @@ website_backend/migrations/README
 website_backend/migrations/alembic.ini
 *.pyc
 *.pyc
+*.pyc
