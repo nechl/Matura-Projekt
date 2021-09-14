@@ -1,16 +1,16 @@
-table{
+table#orders{
     font-family: Arial, sans-serif;
     font-style:normal;
     border-collapse: collapse;
     width: 60%;
 }
 
-td, th{
+td#orders, th#orders{
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
 }
 
-tr:nth-child(even){
+tr#orders:nth-child(even){
     background-color: #dddddd;
 }

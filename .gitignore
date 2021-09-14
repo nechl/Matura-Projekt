@@ -13,3 +13,5 @@ website_backend/migrations/versions/e259212a98ad_users_table.py
 website_backend/migrations/script.py.mako
 website_backend/migrations/README
 website_backend/migrations/alembic.ini
+*.pyc
+*.pyc

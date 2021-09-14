@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1>Hi, {{ current_user.username }}!</h1>
-    <table>
+    <table id="orders">
         {% for order in orders %}
             {% include '_post.html' %}
         {% endfor %}
