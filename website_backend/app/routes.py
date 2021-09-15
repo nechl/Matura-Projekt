@@ -5,6 +5,7 @@ from app.forms import LoginForm, AddOrder, EditProfileForm, EditOrderForm, Delet
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Order
 from datetime import datetime
+import json
 
 @app.route('/')
 @app.route('/index')
@@ -58,7 +59,6 @@ def user(username):
     orders = Order.query.order_by(Order.finished_at.asc()).all()
     return render_template('user.html', user=user, orders=orders)
 
-#under construction
 @app.route('/edit_order/<id>', methods=["GET", "POST"])
 @login_required
 def edit_order(id):
@@ -93,7 +93,29 @@ def delete_order(id):
 def order():
     form = AddOrder()
     if form.validate_on_submit():
-        order = Order(food = form.material.data, finished_at = form.time.data,amount = form.amount.data, user_id = current_user.username)
+        #calculate when the robot has to start cooking, in order to finish the meal on time. Goes following:
+        #
+        # start_at = finished at - TimeFor2LitersOfWater(boiling) + TimeToCookPasta
+        # start_at = form.time.data - (MEASURE_IT + )
+        
+        # Opening JSON file
+        f = open('data_recipe.json',)
+        
+        # returns JSON object as 
+        # a dictionary
+        data = json.load(f)
+        
+        # Iterating through the json
+        # list
+        for recipe in data['recipes']:
+            if recipe["compound"] == form.material.data:
+                TimeToCook = (recipe["time_in_water"])
+        
+        # Closing file
+        f.close()
+
+        start_at = form.time.data #work on converting int to datetime
+        order = Order(food = form.material.data, finished_at = form.time.data, start_at = start_at, amount = form.amount.data, user_id = current_user.username)
         db.session.add(order)
         db.session.commit()
         flash('your order has been added')

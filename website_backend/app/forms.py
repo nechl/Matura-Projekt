@@ -12,7 +12,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Sign In')
 
 class AddOrder(FlaskForm):
-    material = SelectField("What do you want to order?", choices = ['-','Hörnli'])
+    material = SelectField("What do you want to order?", choices = ['-','Hoernli'])
     amount = IntegerField("How much do you want in [g]?", validators=[DataRequired()])
     time = DateField("On what time do you want it?", validators=[DataRequired()])
     submit = SubmitField('Order Now')
