@@ -2,7 +2,7 @@ table#orders{
     font-family: Arial, sans-serif;
     font-style:normal;
     border-collapse: collapse;
-    width: 60%;
+    width: 60vw;
 }
 
 td#orders, th#orders{
@@ -14,3 +14,17 @@ td#orders, th#orders{
 tr#orders:nth-child(even){
     background-color: #dddddd;
 }
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    table#orders{
+        font-family: Arial, sans-serif;
+        font-style:normal;
+        border-collapse: collapse;
+        width: 100%;
+    }
+    *{
+        background-color: red;
+        color: white;
+    }
+  }
