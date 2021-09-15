@@ -11,6 +11,9 @@
         <p>
             {{ form.amount.label }}<br>
             {{ form.amount() }}<br>
+            {% for error in form.amount.errors%}
+            <span style="color:red;">{{ error }}</span>
+            {% endfor %}
         </p>
         <p>
             {{ form.time.label }}<br>

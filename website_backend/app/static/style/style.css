@@ -14,4 +14,3 @@ td#orders, th#orders{
 tr#orders:nth-child(even){
     background-color: #dddddd;
 }
-
