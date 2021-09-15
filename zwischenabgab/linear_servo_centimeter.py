@@ -13,7 +13,7 @@ motor_pin_B2 = 6
 
 calibratePinUp = 0
 calibratePinDown = 0
-delay = 0.01
+delay = 0.02
 # old delay 0.01
 def setup():
     global motor_pin_A1, motor_pin_A2, motor_pin_B1, motor_pin_B2
