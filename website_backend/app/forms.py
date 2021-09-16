@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField
-from wtforms.fields.html5 import DateField
+from wtforms.fields.html5 import DateField, TimeField
 from wtforms.validators import DataRequired
 from wtforms import StringField, TextAreaField, SubmitField
 from wtforms.validators import DataRequired, Length
@@ -14,7 +14,8 @@ class LoginForm(FlaskForm):
 class AddOrder(FlaskForm):
     material = SelectField("What do you want to order?", choices = ['-','Hoernli'])
     amount = IntegerField("How much do you want in [g]?", validators=[DataRequired()])
-    time = DateField("On what time do you want it?", validators=[DataRequired()])
+    date = DateField("On what date do you want it?", validators=[DataRequired()])
+    time = TimeField("On what time do you want it?", validators=[DataRequired()])
     submit = SubmitField('Order Now')
 
 class EditProfileForm(FlaskForm):
@@ -23,7 +24,8 @@ class EditProfileForm(FlaskForm):
 
 class EditOrderForm(FlaskForm):
     amount = IntegerField("How much do you want in [g]?", validators=[DataRequired()])
-    time = DateField("On what time do you want it?", validators=[DataRequired()])
+    date = DateField("On what date do you want it?", validators=[DataRequired()])
+    time = TimeField("On what time do you want it?", validators=[DataRequired()])
     submit = SubmitField('Save Order')
 
 class DeleteForm(FlaskForm):

@@ -1,11 +1,15 @@
 
 credentials.py
 test.py
-
-**/__pycache__
+/website/app/__pycache__/
+/__pycache__
 website_backend/migrations/versions/e259212a98ad_users_table.py
 website_backend/migrations/script.py.mako
 website_backend/migrations/README
 website_backend/migrations/alembic.ini
 website_backend/venv/
+website_backend/app/__pycache__/
 
+website_backend/__pycache__/config.cpython-39.pyc
+website_backend/app/__pycache__/routes.cpython-39.pyc
+website_backend/app/__pycache__/routes.cpython-39.pyc

@@ -4,8 +4,10 @@ from app import app, db
 from app.forms import LoginForm, AddOrder, EditProfileForm, EditOrderForm, DeleteForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Order
-from datetime import datetime
 import json
+from datetime import datetime as dt
+from datetime import timedelta
+import datetime
 
 @app.route('/')
 @app.route('/index')
@@ -66,14 +68,16 @@ def edit_order(id):
     order = Order.query.filter_by(id=id).first_or_404()
     if form.validate_on_submit():
         order.amount = form.amount.data
-        order.finished_at = form.time.data
+        order.finished_at = datetime.datetime.combine(form.date.data, form.time.data)
         db.session.add(order)
         db.session.commit()
         flash('Your changes have been saved')
         return redirect( url_for('index'))
     elif request.method == "GET":
         form.amount.data = order.amount
+        form.date.data = order.finished_at
         form.time.data = order.finished_at
+
     return render_template('edit_order.html', title="Edit order", form=form, order=order)
         
 @app.route('/delete_order/<id>', methods=["GET", "POST"])
@@ -93,6 +97,7 @@ def delete_order(id):
 def order():
     form = AddOrder()
     if form.validate_on_submit():
+
         #calculate when the robot has to start cooking, in order to finish the meal on time. Goes following:
         #
         # start_at = finished at - TimeFor2LitersOfWater(boiling) + TimeToCookPasta
@@ -113,11 +118,14 @@ def order():
         
         # Closing file
         f.close()
-
-        start_at = form.time.data #work on converting int to datetime
-        order = Order(food = form.material.data, finished_at = form.time.data, start_at = start_at, amount = form.amount.data, user_id = current_user.username)
+        delta = timedelta(days=0,seconds=0,microseconds=0,milliseconds=0,minutes=TimeToCook,hours=0,weeks=0)
+        start_at = datetime.datetime.combine(form.date.data, form.time.data) -delta #work on converting int to datetime
+        finished_at = datetime.datetime.combine(form.date.data, form.time.data)
+        order = Order(food = form.material.data, finished_at = finished_at, start_at = start_at, amount = form.amount.data, user_id = current_user.username)
         db.session.add(order)
         db.session.commit()
         flash('your order has been added')
         return redirect(url_for('index'))
     return render_template('selectFood.html', title='Order the Food you want to...', form=form)
+
+# Next to do: add start_at for changing the time/date of order so that correct, then APScheduler
