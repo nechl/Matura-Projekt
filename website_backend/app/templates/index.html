@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Hi, {{ current_user.username }}!</h1>
-    <table id="orders">
-        {% for order in orders %}
-            {% include '_order.html' %}
-        {% endfor %}
-    </table>
+    <div class="MainContent">
+        <h1>Hi, {{ current_user.username }}!</h1>
+        <table id="orders">
+            {% for order in orders %}
+                {% include '_order.html' %}
+            {% endfor %}
+        </table>
+    </div>
 {% endblock %}

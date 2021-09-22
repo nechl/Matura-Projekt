@@ -5,10 +5,19 @@ from app.forms import LoginForm, AddOrder, EditProfileForm, EditOrderForm, Delet
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Order
 import json
-from datetime import datetime as dt
 from datetime import timedelta
-import datetime
 
+import datetime
+from datetime import datetime
+from apscheduler.schedulers.background import BackgroundScheduler
+
+scheduler = BackgroundScheduler()
+
+def my_job(test):
+    print(test)
+    
+
+scheduler.start()
 @app.route('/')
 @app.route('/index')
 @login_required
@@ -49,7 +58,7 @@ def edit_profile():
         db.session.add(current_user)
         db.session.commit()
         flash('Your changes have been saved.')
-        return redirect(url_for('edit_profile'))
+        return redirect(url_for('index'))
     elif request.method == 'GET':
         form.username.data = current_user.username
     return render_template('edit_profile.html', title='Edit Profile',form=form)
@@ -68,9 +77,16 @@ def edit_order(id):
     order = Order.query.filter_by(id=id).first_or_404()
     if form.validate_on_submit():
         order.amount = form.amount.data
-        order.finished_at = datetime.datetime.combine(form.date.data, form.time.data)
+        order.finished_at = datetime.combine(form.date.data, form.time.data)
+        order.start_at = order.finished_at - timedelta(minutes=10)
+
         db.session.add(order)
         db.session.commit()
+        try:
+            scheduler.get_job(str(order.id)).reschedule('date', run_date=order.start_at)
+        except AttributeError as error:
+            print(error)
+        print(scheduler.get_jobs())
         flash('Your changes have been saved')
         return redirect( url_for('index'))
     elif request.method == "GET":
@@ -101,7 +117,6 @@ def order():
         #calculate when the robot has to start cooking, in order to finish the meal on time. Goes following:
         #
         # start_at = finished at - TimeFor2LitersOfWater(boiling) + TimeToCookPasta
-        # start_at = form.time.data - (MEASURE_IT + )
         
         # Opening JSON file
         f = open('data_recipe.json',)
@@ -118,12 +133,23 @@ def order():
         
         # Closing file
         f.close()
-        delta = timedelta(days=0,seconds=0,microseconds=0,milliseconds=0,minutes=TimeToCook,hours=0,weeks=0)
-        start_at = datetime.datetime.combine(form.date.data, form.time.data) -delta #work on converting int to datetime
-        finished_at = datetime.datetime.combine(form.date.data, form.time.data)
+        # Calculate the time to start at
+        delta = timedelta(minutes=TimeToCook)
+        start_at = datetime.combine(form.date.data, form.time.data) - delta #work on converting int to datetime
+
+        # Calculate the time to finish at
+        finished_at = datetime.combine(form.date.data, form.time.data)
         order = Order(food = form.material.data, finished_at = finished_at, start_at = start_at, amount = form.amount.data, user_id = current_user.username)
+        #commit the new order to the database
         db.session.add(order)
+        #db.session.flush()
         db.session.commit()
+        
+        scheduler.add_job(my_job, 'date', run_date=start_at, args=["it works"], id=str(order.id))
+        for job in scheduler.get_jobs():
+            print(job)
+        
+
         flash('your order has been added')
         return redirect(url_for('index'))
     return render_template('selectFood.html', title='Order the Food you want to...', form=form)
