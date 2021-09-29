@@ -22,7 +22,7 @@ class Valve():
         GPIO.output(self.valve_in_1, GPIO.HIGH)
         GPIO.output(self.valve_in_2, GPIO.LOW)
 
-    def closeValve():
+    def closeValve(self):
         GPIO.output(self.valve_in_1, GPIO.LOW)
         GPIO.output(self.valve_in_2, GPIO.LOW)
 
@@ -54,4 +54,4 @@ if __name__ == "__main__":
             else:
                 pass
     except KeyboardInterrupt:
-        destroy()
+        valve.destroy()
