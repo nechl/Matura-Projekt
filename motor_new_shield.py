@@ -6,7 +6,7 @@ except ModuleNotFoundError as error:
 step = 21
 dir1 = 12
 
-delay = 0.01
+delay = 0.001
 class motor_shield():
     def __init__(self, step, dir1):
         self.step = step
@@ -45,5 +45,9 @@ class motor_shield():
 if __name__ == "__main__":
     motor_shield = motor_shield(step, dir1)
     while True:
-        x = input("Up[1] or down[2]: ")
-        motor_shield.UpStep() if x == "1" else motor_shield.DownStep()
+        try:
+            x = input("Up[1] or down[2]: ")
+            motor_shield.UpStep() if x == "1" else motor_shield.DownStep()
+        except KeyboardInterrupt:
+            motor_shield.destroy()
+            pass
