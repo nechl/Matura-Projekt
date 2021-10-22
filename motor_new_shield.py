@@ -6,7 +6,7 @@ except ModuleNotFoundError as error:
 step = 21
 dir1 = 12
 
-delay = 0.001
+delay = 0.0001
 class motor_shield():
     def __init__(self, step, dir1):
         self.step = step
@@ -23,7 +23,7 @@ class motor_shield():
     def DownStep(self):
         GPIO.output(self.dir1, GPIO.LOW)
 
-        for i in range(500):
+        for i in range(10000):
             GPIO.output(self.step, GPIO.LOW)
             time.sleep(delay)
             GPIO.output(self.step, GPIO.HIGH)
@@ -31,7 +31,7 @@ class motor_shield():
 
     def UpStep(self):
         GPIO.output(self.dir1, GPIO.HIGH)
-        for i in range(500):
+        for i in range(10000):
             GPIO.output(self.step, GPIO.LOW)
             time.sleep(delay)
             GPIO.output(self.step, GPIO.HIGH)
