@@ -6,11 +6,12 @@ except ModuleNotFoundError:
 
 from linservo import LinServo
 from valve import Valve
+from salzstreuer import salz_streuer
 
 class cookBot():
     linservo = LinServo([17, 27, 5, 6], [0, 0])
     valve = Valve([21,20])
-
+    salz_streuer = salz_streuer(18)
     def __init__(self, name):
         self.name = name
     

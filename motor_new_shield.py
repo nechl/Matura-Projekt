@@ -15,10 +15,6 @@ class motor_shield():
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.step, GPIO.OUT)
         GPIO.setup(self.dir1, GPIO.OUT)
-    def setup(self):
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(self.step, GPIO.OUT)
-        GPIO.setup(self.dir1, GPIO.OUT)
 
     def DownStep(self):
         GPIO.output(self.dir1, GPIO.LOW)

@@ -14,10 +14,6 @@ class salz_streuer():
 	
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.salz_pin, GPIO.OUT)
-        
-    def setup(self):
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(self.salz_pin, GPIO.OUT)
 
     def mahlen(self):
         GPIO.output(self.salz_pin, GPIO.HIGH)
