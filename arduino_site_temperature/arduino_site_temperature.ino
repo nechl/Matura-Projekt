@@ -42,7 +42,7 @@ void loop() {
   float ratio = rtd;
   ratio /= 32768;
 
-  Serial.print("Temperature = "); Serial.println(thermo.temperature(RNOMINAL, RREF));
+  Serial.println(thermo.temperature(RNOMINAL, RREF));
 
   // Check and print any faults
   uint8_t fault = thermo.readFault();
@@ -68,6 +68,6 @@ void loop() {
     }
     thermo.clearFault();
   }
-  Serial.println();
+  
   delay(1000);
 }
