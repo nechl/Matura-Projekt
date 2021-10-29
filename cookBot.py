@@ -1,12 +1,16 @@
+#!/usr/bin/env python3
 try:
     import RPi.GPIO as GPIO
     import time
+    import serial
+    import os
+    from linservo import LinServo
+    from valve import Valve
+    from salzstreuer import salz_streuer
 except ModuleNotFoundError:
     print("Not all modules required were found...")
 
-from linservo import LinServo
-from valve import Valve
-from salzstreuer import salz_streuer
+
 
 class cookBot():
     linservo = LinServo([17, 27, 5, 6], [0, 0])
@@ -27,7 +31,7 @@ class cookBot():
         self.valve.openValveForLiters(2)
 
         # 3) boil the water
-
+        
         # 4) let the pasta in
 
         # 5) wait
