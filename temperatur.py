@@ -3,12 +3,21 @@ import serial
 import os
 
 class Temperature():
-    def listenSerial(self):
+    def __init__(self):
         self.ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
         self.ser.flush()
+        
+    def listenSerial(self):
+
+
         if self.ser.in_waiting > 0:
             temperature = self.ser.readline().decode('utf-8').rstrip()
             print(temperature)
             
             temperature = float(temperature)
             return temperature
+if __name__ == "__main__":
+    temp = Temperature()
+    while True:
+        x = temp.listenSerial()
+        print(x)
