@@ -12,5 +12,5 @@ class Temperature():
             temperature = self.ser.readline().decode('utf-8').rstrip()
             print(temperature)
             
-            temperature = int(temperature)
+            temperature = float(temperature)
             return temperature

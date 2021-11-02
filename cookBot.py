@@ -78,7 +78,7 @@ class cookBot():
                     print("Nun sind wir fertig...")
                     break
                 time.sleep(30)
-        except error as e:
+        except BaseException as e:
             self.linservo.destroy()
             self.valve.destroy()
             self.salz_streuer.destroy()
