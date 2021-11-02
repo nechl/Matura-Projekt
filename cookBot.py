@@ -18,54 +18,71 @@ except ModuleNotFoundError:
 
 
 class cookBot():
-    linservo = LinServo([17, 27, 5, 6], [0, 0])
-    valve = Valve([21,20])
+    linservo = LinServo(17,27)
+    valve = Valve(21,20)
     salz_streuer = salz_streuer(18)
     funksteckdose = Funksteckdose()
-    pastaPortioner = PastaPortioner(pin1, pin2)
+    pastaPortioner = PastaPortioner(23,24)
     temperature = Temperature()
 
     def __init__(self, name):
         self.name = name
     
     def cook(self, order):
-        print(order)
+        try:
+            print(order)
 
-        #HOW TO COOK: 
-        
-        # 1) let the cooking pot up
-        self.linservo.UpStep(1)
-        
-        # 2) let the water in, based on the amount in the db
-        self.valve.openValveForLiters(2)
-
-        # 3) boil the water
-        self.funksteckdose.anschalten()
-        
-        while True:
-            temperature = self.temperature.listenSerial()
-            # 4) Now check if the temperature is already high enough to start cooking the pasta...
-            if temperature > 90:
-                # 5) Now salt the pasta:
-                self.salz_streuer.mahlen()
-
-                # 6) let the pasta in
-                self.pastaPortioner.LeftTurn()
-                
-                # 7) let the cooking pot down
-                self.linservo.DownStep(1)
+            #HOW TO COOK: 
             
-                # 8) wait
-                time.sleep(300)
+            # 1) let the cooking pot up
+            print("Moving the cooking pot up")
+            self.linservo.UpStep()
+            
+            # 2) let the water in, based on the amount in the db
+            print("Letting water in")
+            self.valve.openValveForLiters(2)
 
-                # 9) shut off the funksteckdose
-                self.funksteckdose.abschalten()
+            # 3) boil the water
+            print("Boil the water")
+            self.funksteckdose.anschalten()
+            
+            while True:
+                temperature = self.temperature.listenSerial()
+                # 4) Now check if the temperature is already high enough to start cooking the pasta...
+                print("Temperatur wird nun alle 30 Sekunden gemessen, sobald sie höher wie 90°C ist wird gekocht.")
+                if int(temperature) > 90:
+                    # 5) Now salt the pasta:
+                    print("Nun wird die Pasta gesalzen.")
+                    self.salz_streuer.mahlen()
 
-                # 10) drive the cooking pot up
-                self.linservo.UpStep(3)
+                    # 6) let the pasta in
+                    print("Nun wird die Pasta reingelassen...")
+                    self.pastaPortioner.LeftTurn()
+                    
+                    # 7) let the cooking pot down
+                    print("Runterlassen des Kochtopfes...")
+                    self.linservo.DownStep()
+                
+                    # 8) wait
+                    print("Nun drehen wir Däumchen bis die 300 Sekunden abgelaufen sind...")
+                    time.sleep(300)
 
-                break
-            time.sleep(30)
+                    # 9) shut off the funksteckdose
+                    print("Nun wird die Steckdose fürs Kochen abgeschaltet...")
+                    self.funksteckdose.abschalten()
+
+                    # 10) drive the cooking pot up
+                    print("Nun wird der Kochtopf hochgelassen...")
+                    self.linservo.UpStep()
+
+                    print("Nun sind wir fertig...")
+                    break
+                time.sleep(30)
+            except error as e:
+                self.linservo.destroy()
+                self.valve.destroy()
+                self.salz_streuer.destroy()
+                self.pastaPortioner.destroy()
 
 if __name__ == "__main__":
     cookbot = cookBot("Nechl")

@@ -7,9 +7,9 @@ except ModuleNotFoundError:
 
 #class for controlling the valve for the waterinflux
 class Valve():
-    def __init__(self, pinINPUT):
-        self.valve_in_1 = pinINPUT[0]
-        self.valve_in_2 = pinINPUT[1]
+    def __init__(self, valve1, valve2):
+        self.valve_in_1 = valve1
+        self.valve_in_2 = valve2
         self.constantLitersPerSecond = 1.0
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.valve_in_1, GPIO.OUT)

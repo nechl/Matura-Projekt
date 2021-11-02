@@ -4,7 +4,8 @@ try:
 except ModuleNotFoundError as error:
     print(error)
 
-
+step = 23
+dir1 = 24
 class PastaPortioner():
     def __init__(self, step, dir1):
         self.step = step
