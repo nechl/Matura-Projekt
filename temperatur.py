@@ -11,4 +11,6 @@ class Temperature():
         if ser.in_waiting > 0:
             temperature = ser.readline().decode('utf-8').rstrip()
             print(temperature)
+            
+            temperature = int(temperature)
             return temperature
