@@ -78,11 +78,11 @@ class cookBot():
                     print("Nun sind wir fertig...")
                     break
                 time.sleep(30)
-            except error as e:
-                self.linservo.destroy()
-                self.valve.destroy()
-                self.salz_streuer.destroy()
-                self.pastaPortioner.destroy()
+        except error as e:
+            self.linservo.destroy()
+            self.valve.destroy()
+            self.salz_streuer.destroy()
+            self.pastaPortioner.destroy()
 
 if __name__ == "__main__":
     cookbot = cookBot("Nechl")
