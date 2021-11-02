@@ -61,38 +61,38 @@ class cookBot():
                         
                 # 4) Now check if the temperature is already high enough to start cooking the pasta...
                 print("Temperatur wird nun alle 30 Sekunden gemessen, sobald sie höher wie 90°C ist wird gekocht.")
-
-                if float(temp) > 50.0:
+                
+                if int(temperature) > 90:
                     # 5) Now salt the pasta:
-                    print("Nun wird die Pasta gesalzen.")
+                    print("[+]Nun wird die Pasta gesalzen.")
                     self.salz_streuer.mahlen()
 
                     # 6) let the pasta in
-                    print("Nun wird die Pasta reingelassen...")
+                    print("[+]Nun wird die Pasta reingelassen...")
                     self.pastaPortioner.LeftTurn()
                     
                     # 7) let the cooking pot down
-                    print("Runterlassen des Kochtopfes...")
+                    print("[+]Runterlassen des Kochtopfes...")
                     self.linservo.DownStep()
                 
                     # 8) wait
-                    print("Nun drehen wir Däumchen bis die 300 Sekunden abgelaufen sind...")
+                    print("[+]Nun drehen wir Däumchen bis die 300 Sekunden abgelaufen sind...")
                     time.sleep(300)
 
                     # 9) shut off the funksteckdose
-                    print("Nun wird die Steckdose fürs Kochen abgeschaltet...")
+                    print("[+]Nun wird die Steckdose fürs Kochen abgeschaltet...")
                     self.funksteckdose.abschalten()
 
                     # 10) drive the cooking pot up
-                    print("Nun wird der Kochtopf hochgelassen...")
+                    print("[+]Nun wird der Kochtopf hochgelassen...")
                     self.linservo.UpStep()
 
-                    print("Nun sind wir fertig...")
+                    print("[+]Nun sind wir fertig...")
                     break
                 else:
                     print(temp)
-                    print("We are not in the correct loop, guess why")
                 time.sleep(5)
+
         except BaseException as e:
             self.linservo.destroy()
             self.valve.destroy()
