@@ -33,8 +33,29 @@ class PastaPortioner():
             time.sleep(self.delay)
             GPIO.output(self.step, GPIO.HIGH)
             time.sleep(self.delay)
+    
+    def configure(self):
+        l = 0
+        for i in range(10):
+            GPIO.output(self.dir1, GPIO.HIGH)
+            
+            for i in range(10000):
+                GPIO.output(self.step, GPIO.LOW)
+                time.sleep(self.delay)
+                GPIO.output(self.step, GPIO.HIGH)
+                time.sleep(self.delay)
+
+            menge = int(input("How many grams were that? "))
+            l += menge
+        gramm_pro_umdrehung = l/100000
+        umdrehung_pro_50_gramm = (100000 / l) * 50
+        print(umdrehung_pro_50_gramm)
 
     def destroy(self):
         GPIO.output(self.dir1, GPIO.LOW)
         GPIO.output(self.step, GPIO.LOW)
         GPIO.cleanup()
+
+if __name__ == "__main__":
+    pasta_port = PastaPortioner(23, 24)
+    pasta_port.configure()

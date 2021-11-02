@@ -57,7 +57,7 @@ class LinServo():
 
 
 if __name__ == '__main__':
-    linservo = LinServo(20,21)
+    linservo = LinServo(17,27)
 
     while True:        
         x =str(input("input[1 = down ; 2 = up]: "))
