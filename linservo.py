@@ -26,7 +26,15 @@ class LinServo():
             time.sleep(delay)
             GPIO.output(self.step, GPIO.HIGH)
             time.sleep(delay)
-
+            
+    def DownStepDistance(self, cm=1):
+        GPIO.output(self.dir1, GPIO.LOW)
+        for i in range(4000*cm):
+            GPIO.output(self.step, GPIO.LOW)
+            time.sleep(delay)
+            GPIO.output(self.step, GPIO.HIGH)
+            time.sleep(delay)
+        
     def UpStep(self):
         GPIO.output(self.dir1, GPIO.HIGH)
         for i in range(10000):
@@ -35,6 +43,13 @@ class LinServo():
             GPIO.output(self.step, GPIO.HIGH)
             time.sleep(delay)
 
+    def UpStepDistance(self, cm=1):
+        GPIO.output(self.dir1, GPIO.HIGH)
+        for i in range(4000*cm):
+            GPIO.output(self.step, GPIO.LOW)
+            time.sleep(delay)
+            GPIO.output(self.step, GPIO.HIGH)
+            time.sleep(delay)
     def destroy(self):
         GPIO.output(self.dir1, GPIO.LOW)
         GPIO.output(self.step, GPIO.LOW)
@@ -42,17 +57,17 @@ class LinServo():
 
 
 if __name__ == '__main__':
-    linservo = LinServo(17,27)
+    linservo = LinServo(20,21)
 
     while True:        
         x =str(input("input[1 = down ; 2 = up]: "))
-        y = int(input("Amount in centimeters: "))
+        y =int(input("Distance? "))
         print (x)
 
         if x == "1":
             print("down")
-            linservo.DownStep(y)
+            linservo.DownStepDistance(y)
 
         elif x =="2":
             print("up")
-            linservo.UpStep(y)
+            linservo.UpStepDistance(y)

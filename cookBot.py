@@ -51,14 +51,18 @@ class cookBot():
                 ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
                 ser.flush()
                 
-                if ser.in_waiting > 0:
+                if ser.in_waiting < 0:
+                    temp = 20
+                    print(temp)
+                    
+                else:
                     temp = ser.readline().decode('utf-8').rstrip()
                     print(temp)
-                else:
-                    temp = 20        
+                        
                 # 4) Now check if the temperature is already high enough to start cooking the pasta...
                 print("Temperatur wird nun alle 30 Sekunden gemessen, sobald sie höher wie 90°C ist wird gekocht.")
-                if int(temp) > 90:
+
+                if float(temp) > 50.0:
                     # 5) Now salt the pasta:
                     print("Nun wird die Pasta gesalzen.")
                     self.salz_streuer.mahlen()
@@ -85,6 +89,9 @@ class cookBot():
 
                     print("Nun sind wir fertig...")
                     break
+                else:
+                    print(temp)
+                    print("We are not in the correct loop, guess why")
                 time.sleep(5)
         except BaseException as e:
             self.linservo.destroy()
