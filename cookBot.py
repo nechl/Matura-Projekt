@@ -19,7 +19,7 @@ class cookBot():
     #pinout is the following: 
     #used pins: 17,27,21,20,18,23,24
     
-    linservo = LinServo(17,27)
+    linservo = LinServo(27,22)
     valve = Valve(21,20)
     salz_streuer = salz_streuer(18)
     funksteckdose = Funksteckdose()
@@ -42,7 +42,7 @@ class cookBot():
 
             # 1) let the cooking pot up
             print("Moving the cooking pot up")
-            self.linservo.UpStepDistance(20)
+            self.linservo.UpStepDistance(1)
             
             # 2) let the water in, based on the amount in the db
             print("Letting water in")
@@ -82,7 +82,7 @@ class cookBot():
                     
                     # 7) let the cooking pot down
                     print("[+]Runterlassen des Kochtopfes...")
-                    self.linservo.DownStepDistance(20)
+                    self.linservo.DownStepDistance(1)
                 
                     # 8) wait
                     print("[+]Nun drehen wir Däumchen bis die 500 Sekunden abgelaufen sind...")
@@ -94,7 +94,7 @@ class cookBot():
 
                     # 10) drive the cooking pot up
                     print("[+]Nun wird der Kochtopf hochgelassen...")
-                    self.linservo.UpStepDistance(15)
+                    self.linservo.UpStepDistance(1)
 
                     print("[+]Nun sind wir fertig...")
                     break
@@ -105,6 +105,8 @@ class cookBot():
 
         except BaseException as e:
             try:
+		print("Okay, we have a problem, shutting services down")
+		print(e)
                 self.linservo.destroy()
                 self.valve.destroy()
                 self.salz_streuer.destroy()

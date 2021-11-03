@@ -17,7 +17,7 @@ class salz_streuer():
 
     def mahlen(self):
         GPIO.output(self.salz_pin, GPIO.HIGH)
-        time.sleep(5)
+        time.sleep(1)
         GPIO.output(self.salz_pin, GPIO.LOW)
         
     def destroy(self):
@@ -28,7 +28,7 @@ if __name__ == "__main__":
     salz_streuer = salz_streuer(salz_pin)
     while True:
         try:
-            x = input("Up[1] or down[2]: ")
+            x = input("Mahlen[1] oder nichts tun... ")
             salz_streuer.mahlen() if x == "1" else print("nothing")
         except KeyboardInterrupt:
             motor_shield.destroy()

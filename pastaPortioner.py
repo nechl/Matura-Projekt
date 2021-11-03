@@ -27,7 +27,6 @@ class PastaPortioner():
 
     def LeftTurn(self):
         GPIO.output(self.dir1, GPIO.HIGH)
-        
         for i in range(10000):
             GPIO.output(self.step, GPIO.LOW)
             time.sleep(self.delay)
@@ -58,4 +57,8 @@ class PastaPortioner():
 
 if __name__ == "__main__":
     pasta_port = PastaPortioner(23, 24)
-    pasta_port.configure()
+    #pasta_port.configure()
+    x = int(input("Pasta, yk"))
+    if x==1:
+        pasta_port.LeftTurn()
+
