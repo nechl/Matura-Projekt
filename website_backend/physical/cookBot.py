@@ -1,21 +1,21 @@
 #!/usr/bin/env python3
-try:
-    import RPi.GPIO as GPIO
-    import time
-    import serial
-    import os
-    
-    from linservo import LinServo
-    from valve import Valve
-    from salzstreuer import salz_streuer
-    from funksteckdose import Funksteckdose
-    from pastaPortioner import PastaPortioner
-    from temperatur import Temperature
-    
-except ModuleNotFoundError:
-    print("Not all modules required were found...")
+class CookBot():
+    try:
+        import RPi.GPIO as GPIO
+        import time
+        import serial
+        import os
+        
+        from physical.linservo import LinServo
+        from physical.valve import Valve
+        from physical.salzstreuer import salz_streuer
+        from physical.funksteckdose import Funksteckdose
+        from physical.pastaPortioner import PastaPortioner
+        from physical.temperatur import Temperature
+        
+    except ModuleNotFoundError:
+        print(e)
 
-class cookBot():
     #pinout is the following: 
     #used pins: 17,27,21,20,18,23,24
     
@@ -32,7 +32,21 @@ class cookBot():
     def cook(self, order):
         try:
             print(order)
+            # Opening JSON file
+            f = open('data_recipe.json',)
+        
+            # returns JSON object as 
+            # a dictionary
+            data = json.load(f)
             
+            # Iterating through the json
+            # list
+            for recipe in data['recipes']:
+                if recipe["compound"] == order.food:
+                    TimeToCook = (recipe["time_in_water"])
+        
+            # Closing file
+            f.close()
             #HOW TO COOK
 
             # 1) let the cooking pot up
@@ -73,7 +87,7 @@ class cookBot():
 
                     # 6) let the pasta in
                     print("[+]Nun wird die Pasta reingelassen...")
-                    self.pastaPortioner.LeftTurn()
+                    self.pastaPortioner.LeftTurnGram(order.amount)
                     
                     # 7) let the cooking pot down
                     print("[+]Runterlassen des Kochtopfes...")
@@ -81,7 +95,7 @@ class cookBot():
                 
                     # 8) wait
                     print("[+]Nun drehen wir Däumchen bis die 500 Sekunden abgelaufen sind...")
-                    time.sleep(500)
+                    time.sleep(TimeToCook*60)
 
                     # 9) shut down the funksteckdose
                     print("[+]Nun wird die Steckdose fürs Kochen abgeschaltet...")
@@ -108,8 +122,3 @@ class cookBot():
                 self.pastaPortioner.destroy()
             except BaseException as e2:
                 print(e2)
-
-if __name__ == "__main__":
-    cookbot = cookBot("Nechl")
-    
-    cookbot.cook("nothing yet")

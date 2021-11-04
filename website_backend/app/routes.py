@@ -4,20 +4,25 @@ from app import app, db
 from app.forms import LoginForm, AddOrder, EditProfileForm, EditOrderForm, DeleteForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Order
-import json
-from datetime import timedelta
-
 import datetime
-from datetime import datetime
+import json
+from datetime import timedelta, datetime
+#from physical.cookBot import CookBot
+
 from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
 
-scheduler = BackgroundScheduler()
-
-def my_job(test):
-    print(test)
-    
-
+jobstores = {
+    'default': SQLAlchemyJobStore(url='sqlite:///jobs.sqlite')
+}
+scheduler = BackgroundScheduler(jobstores = jobstores)
 scheduler.start()
+#cookbot = CookBot("Ratatouile")
+    
+def my_test(test):
+    print(test)
+
+#homepage
 @app.route('/')
 @app.route('/index')
 @login_required
@@ -49,6 +54,13 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+@app.route('/user/<username>')
+@login_required
+def user(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    orders = Order.query.order_by(Order.finished_at.asc()).all()
+    return render_template('user.html', user=user, orders=orders)
+
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
@@ -62,53 +74,6 @@ def edit_profile():
     elif request.method == 'GET':
         form.username.data = current_user.username
     return render_template('edit_profile.html', title='Edit Profile',form=form)
-
-@app.route('/user/<username>')
-@login_required
-def user(username):
-    user = User.query.filter_by(username=username).first_or_404()
-    orders = Order.query.order_by(Order.finished_at.asc()).all()
-    return render_template('user.html', user=user, orders=orders)
-
-@app.route('/edit_order/<id>', methods=["GET", "POST"])
-@login_required
-def edit_order(id):
-    form = EditOrderForm()
-    order = Order.query.filter_by(id=id).first_or_404()
-    
-    if form.validate_on_submit():
-        order.amount = form.amount.data
-        order.finished_at = datetime.combine(form.date.data, form.time.data)
-        order.start_at = order.finished_at - timedelta(minutes=10)
-
-        db.session.add(order)
-        db.session.commit()
-        try:
-            scheduler.get_job(str(order.id)).reschedule('date', run_date=order.start_at)
-        except AttributeError as error:
-            print(error)
-        print(scheduler.get_jobs())
-        flash('Your changes have been saved')
-        return redirect( url_for('index'))
-    
-    elif request.method == "GET":
-        form.amount.data = order.amount
-        form.date.data = order.finished_at
-        form.time.data = order.finished_at
-
-    return render_template('edit_order.html', title="Edit order", form=form, order=order)
-        
-@app.route('/delete_order/<id>', methods=["GET", "POST"])
-@login_required
-def delete_order(id):
-    form = DeleteForm()
-    order = Order.query.filter_by(id=id).first_or_404()
-    if form.validate_on_submit():
-        Order.query.filter_by(id=id).delete()
-        db.session.commit()
-        return redirect(url_for('index'))
-
-    return render_template('delete_order.html', title="Delete Order", form=form, order=order)
 
 @app.route('/order', methods=['GET', 'POST'])
 @login_required
@@ -147,14 +112,73 @@ def order():
         #db.session.flush()
         db.session.commit()
         
-        scheduler.add_job(my_job, 'date', run_date=start_at, args=["it works"], id=str(order.id))
+        scheduler.add_job(my_test, 'date', run_date=start_at, args=[order],id = str(order.id))
+        #scheduler.add_job(cookbot.cook, 'date', run_date=order.start_at, args=[order], id=str(order.id))
+
+        for job in scheduler.get_jobs():
+            print(job.id, end = ': ')
+            print(job)
+        
+        flash('your order has been added')
+        return redirect(url_for('index'))
+
+    return render_template('selectFood.html', title='Order the Food you want to...', form=form)
+
+@app.route('/edit_order/<id>', methods=["GET", "POST"])
+@login_required
+def edit_order(id):
+    form = EditOrderForm()
+    order = Order.query.filter_by(id=id).first_or_404()
+    if form.validate_on_submit():
+        order.amount = form.amount.data
+        order.finished_at = datetime.combine(form.date.data, form.time.data)
+        order.start_at = order.finished_at - timedelta(minutes=10)
+        if datetime.now() >= order.start_at:
+            pass
+        else:
+            try:
+                scheduler.reschedule_job((order.id),'date', run_date=order.start_at)
+            except AttributeError as error:
+                print(error)
+
+        db.session.add(order)
+        db.session.commit()
+        
         
         for job in scheduler.get_jobs():
             print(job)
-        
+        flash('Your changes have been saved')
+        return redirect( url_for('index'))
+    
+    elif request.method == "GET":
+        form.amount.data = order.amount
+        form.date.data = order.finished_at
+        form.time.data = order.finished_at
 
-        flash('your order has been added')
+    return render_template('edit_order.html', title="Edit order", form=form, order=order)
+        
+@app.route('/delete_order/<id>', methods=["GET", "POST"])
+@login_required
+def delete_order(id):
+    form = DeleteForm()
+    order = Order.query.filter_by(id=id).first_or_404()
+    if form.validate_on_submit():
+        if datetime.now() >= order.start_at:
+            pass
+        else:
+            try:
+                scheduler.remove_job(order.id)
+            except BaseException as e:
+                print(e)
+
+        Order.query.filter_by(id=id).delete()
+        db.session.commit()
+        
+        for job in scheduler.get_jobs():
+            print(job)        
         return redirect(url_for('index'))
-    return render_template('selectFood.html', title='Order the Food you want to...', form=form)
+
+    return render_template('delete_order.html', title="Delete Order", form=form, order=order)
+
 
 # Next to do: add start_at for changing the time/date of order so that correct, then APScheduler
