@@ -134,21 +134,22 @@ def edit_order(id):
         order.finished_at = datetime.combine(form.date.data, form.time.data)
         order.start_at = order.finished_at - timedelta(minutes=10)
         if datetime.now() >= order.start_at:
-            pass
-        else:
-            try:
-                scheduler.reschedule_job((order.id),'date', run_date=order.start_at)
-            except AttributeError as error:
-                print(error)
+            flash("It is not possible to lay the start into that time window.")
 
-        db.session.add(order)
-        db.session.commit()
-        
-        
-        for job in scheduler.get_jobs():
-            print(job)
-        flash('Your changes have been saved')
-        return redirect( url_for('index'))
+        else:
+            db.session.add(order)
+            db.session.commit()
+
+            print("[Old Job]", end=": ")
+            print(scheduler.get_job(order.id))
+
+            scheduler.get_job(order.id).reschedule('date', run_date=order.start_at) 
+            
+            print("[New Job]", end=": ")
+            print(scheduler.get_job(order.id))
+
+            flash('Your changes have been saved')
+            return redirect( url_for('index'))
     
     elif request.method == "GET":
         form.amount.data = order.amount
