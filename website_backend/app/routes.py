@@ -7,7 +7,7 @@ from app.models import User, Order
 import datetime
 import json
 from datetime import timedelta, datetime
-#from physical.cookBot import CookBot
+from physical.cookBot import CookBot
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
@@ -17,7 +17,7 @@ jobstores = {
 }
 scheduler = BackgroundScheduler(jobstores = jobstores)
 scheduler.start()
-#cookbot = CookBot("Ratatouile")
+cookbot = CookBot("Ratatouile")
     
 def my_test(test):
     print(test)
@@ -180,6 +180,5 @@ def delete_order(id):
         return redirect(url_for('index'))
 
     return render_template('delete_order.html', title="Delete Order", form=form, order=order)
-
 
 # Next to do: add start_at for changing the time/date of order so that correct, then APScheduler

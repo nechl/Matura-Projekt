@@ -44,26 +44,29 @@ class CookBot():
             for recipe in data['recipes']:
                 if recipe["compound"] == order.food:
                     TimeToCook = (recipe["time_in_water"])
+                    water_amount_per_1000_g = (recipe["water_amount_per_1000_g"])
+                    print(TimeToCook)
+                    print(water_amount_per_1000_g)
         
             # Closing file
             f.close()
             #HOW TO COOK
 
             # 1) let the cooking pot up
-            print("Moving the cooking pot up")
+            print(self.name, ": Moving the cooking pot up")
             self.linservo.UpStepDistance(1)
             
             # 2) let the water in, based on the amount in the db
-            print("Letting water in")
-            self.valve.openValveForLiters(2)
+            print(self.name, ": Letting water in")
+            self.valve.openValveForLiters(order.amount/1000 * water_amount_per_1000_g)
 
             # 3) boil the water
-            print("Boil the water")
+            print(self.name, ": Boil the water")
             self.funksteckdose.anschalten()
             
             while True:
                 # 4) Now check if the temperature is already high enough to start cooking the pasta...
-                print("Temperatur wird nun alle 30 Sekunden gemessen, sobald sie höher wie 95°C ist wird gekocht.")
+                print(self.name, ": Temperatur wird nun alle 30 Sekunden gemessen, sobald sie höher wie 95°C ist wird gekocht.")
 
                 ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
                 ser.flush()
@@ -82,34 +85,34 @@ class CookBot():
                 if int(temperature) > 95:
 
                     # 5) Now salt the pasta:
-                    print("[+]Nun wird die Pasta gesalzen.")
+                    print(self.name, ": Nun wird die Pasta gesalzen.")
                     self.salz_streuer.mahlen()
 
                     # 6) let the pasta in
-                    print("[+]Nun wird die Pasta reingelassen...")
+                    print(self.name, ": Nun wird die Pasta reingelassen...")
                     self.pastaPortioner.LeftTurnGram(order.amount)
                     
                     # 7) let the cooking pot down
-                    print("[+]Runterlassen des Kochtopfes...")
+                    print(self.name, ": Runterlassen des Kochtopfes...")
                     self.linservo.DownStepDistance(1)
                 
                     # 8) wait
-                    print("[+]Nun drehen wir Däumchen bis die 500 Sekunden abgelaufen sind...")
+                    print(self.name, ": Nun drehen wir Däumchen bis die 500 Sekunden abgelaufen sind...")
                     time.sleep(TimeToCook*60)
 
                     # 9) shut down the funksteckdose
-                    print("[+]Nun wird die Steckdose fürs Kochen abgeschaltet...")
+                    print(self.name, ": Nun wird die Steckdose fürs Kochen abgeschaltet...")
                     self.funksteckdose.abschalten()
 
                     # 10) drive the cooking pot up
-                    print("[+]Nun wird der Kochtopf hochgelassen...")
+                    print(self.name, ": Nun wird der Kochtopf hochgelassen...")
                     self.linservo.UpStepDistance(1)
 
-                    print("[+]Nun sind wir fertig...")
+                    print(self.name, ": Nun sind wir fertig...")
                     break
 
                 else:
-                    print(temp)
+                    print(self.name, ":  ", temp)
                 time.sleep(5)
 
         except BaseException as e:
