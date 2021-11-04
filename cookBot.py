@@ -32,13 +32,8 @@ class cookBot():
     def cook(self, order):
         try:
             print(order)
-
-        #      _  _   _    _  ______          __  _______ ____     _____ ____   ____  _  __
-        #    _| || |_| |  | |/ __ \ \        / / |__   __/ __ \   / ____/ __ \ / __ \| |/ /
-        #   |_  __  _| |__| | |  | \ \  /\  / /     | | | |  | | | |   | |  | | |  | | ' / 
-        #    _| || |_|  __  | |  | |\ \/  \/ /      | | | |  | | | |   | |  | | |  | |  <  
-        #   |_  __  _| |  | | |__| | \  /\  /       | | | |__| | | |___| |__| | |__| | . \ 
-        #     |_||_| |_|  |_|\____/   \/  \/        |_|  \____/   \_____\____/ \____/|_|\_\
+            
+            #HOW TO COOK
 
             # 1) let the cooking pot up
             print("Moving the cooking pot up")
@@ -105,8 +100,8 @@ class cookBot():
 
         except BaseException as e:
             try:
-		print("Okay, we have a problem, shutting services down")
-		print(e)
+                print("Okay, we have a problem, shutting services down")
+                print(e)
                 self.linservo.destroy()
                 self.valve.destroy()
                 self.salz_streuer.destroy()

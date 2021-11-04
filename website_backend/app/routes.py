@@ -75,6 +75,7 @@ def user(username):
 def edit_order(id):
     form = EditOrderForm()
     order = Order.query.filter_by(id=id).first_or_404()
+    
     if form.validate_on_submit():
         order.amount = form.amount.data
         order.finished_at = datetime.combine(form.date.data, form.time.data)
@@ -89,6 +90,7 @@ def edit_order(id):
         print(scheduler.get_jobs())
         flash('Your changes have been saved')
         return redirect( url_for('index'))
+    
     elif request.method == "GET":
         form.amount.data = order.amount
         form.date.data = order.finished_at
@@ -146,6 +148,7 @@ def order():
         db.session.commit()
         
         scheduler.add_job(my_job, 'date', run_date=start_at, args=["it works"], id=str(order.id))
+        
         for job in scheduler.get_jobs():
             print(job)
         
