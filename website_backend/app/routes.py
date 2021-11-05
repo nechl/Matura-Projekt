@@ -19,16 +19,21 @@ scheduler = BackgroundScheduler(jobstores = jobstores)
 scheduler.start()
 #cookbot = CookBot("Ratatouile")
     
-def my_test(test):
-    print(test)
+def my_test(order):
+    print(order)
+    order_to_edit = Order.query.filter_by(id=order.id).first_or_404()
+    order_to_edit.cooking = True
+    db.session.add(order_to_edit)
+    db.session.commit()
 
 #homepage
 @app.route('/')
 @app.route('/index')
 @login_required
 def index():
-    orders = Order.query.order_by(Order.finished_at.asc()).all()
-    return render_template('index.html', title='Home', orders=orders)
+    orders = Order.query.filter_by(cooking = False).order_by(Order.finished_at.asc()).all()
+    orders_cooked = Order.query.filter_by(cooking = True).order_by(Order.finished_at.asc()).all()
+    return render_template('index.html', title='Home', orders=orders, orders_cooked = orders_cooked)
 
 #login worker
 @app.route('/login', methods=['GET', 'POST'])
@@ -106,7 +111,7 @@ def order():
 
         # Calculate the time to finish at
         finished_at = datetime.combine(form.date.data, form.time.data)
-        order = Order(food = form.material.data, finished_at = finished_at, start_at = start_at, amount = form.amount.data, user_id = current_user.username)
+        order = Order(food = form.material.data, finished_at = finished_at, start_at = start_at, amount = form.amount.data, user_id = current_user.username, cooking = False)
         #commit the new order to the database
         db.session.add(order)
         #db.session.flush()
@@ -134,7 +139,7 @@ def edit_order(id):
         order.finished_at = datetime.combine(form.date.data, form.time.data)
         order.start_at = order.finished_at - timedelta(minutes=10)
         if datetime.now() >= order.start_at:
-            flash("It is not possible to lay the start into that time window.")
+            flash("Not possible to change that order.\nPossible Errors:\n\t-Already cooked\n\t-No free slot")
 
         else:
             db.session.add(order)

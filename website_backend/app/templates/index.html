@@ -3,9 +3,16 @@
 {% block content %}
     <div class="MainContent">
         <h1>Hi, {{ current_user.username }}!</h1>
+        <h2>Meals to cook:</h2>
         <table id="orders">
             {% for order in orders %}
                 {% include '_order.html' %}
+            {% endfor %}
+        </table>
+        <h2>Meals cooked or cooking:</h2>
+        <table id="orders">
+            {% for order in orders_cooked %}
+                {% include '_order_cooked.html' %}
             {% endfor %}
         </table>
     </div>

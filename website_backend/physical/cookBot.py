@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 class CookBot():
     try:
-        
+        from app import app, db
+        from app.models import User, Order
+
         import RPi.GPIO as GPIO
         import time
         import serial
@@ -34,7 +36,10 @@ class CookBot():
         try:
             print(order)
             #Change atrribute in database to cooking, so that you know that it is in preparation.
-
+            order_to_edit = Order.query.filter_by(id=order.id).first_or_404()
+            order_to_edit.cooking = True
+            db.session.add(order_to_edit)
+            db.session.commit()
             # Opening JSON file
             f = open('data_recipe.json',)
         
