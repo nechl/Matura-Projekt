@@ -27,6 +27,7 @@ class Order(db.Model):
     finished_at = db.Column(db.DateTime, index = True)
     start_at = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    cooking = db.Column(db.Boolean, default = False)
     
     def __repr__(self):
         return '<{} ordered {}g of {} on {}>'.format(self.user_id, self.amount, self.food, self.finished_at)

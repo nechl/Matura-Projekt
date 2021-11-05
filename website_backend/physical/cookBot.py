@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 class CookBot():
     try:
+        
         import RPi.GPIO as GPIO
         import time
         import serial
@@ -13,7 +14,7 @@ class CookBot():
         from physical.pastaPortioner import PastaPortioner
         from physical.temperatur import Temperature
         
-    except ModuleNotFoundError:
+    except ModuleNotFoundError as e:
         print(e)
 
     #pinout is the following: 
@@ -32,6 +33,8 @@ class CookBot():
     def cook(self, order):
         try:
             print(order)
+            #Change atrribute in database to cooking, so that you know that it is in preparation.
+
             # Opening JSON file
             f = open('data_recipe.json',)
         
