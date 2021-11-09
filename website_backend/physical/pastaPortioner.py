@@ -16,23 +16,22 @@ class PastaPortioner():
         GPIO.setup(self.step, GPIO.OUT)
         GPIO.setup(self.dir1, GPIO.OUT)
 
-    def RightTurn(self):
+    def turn(self):
         GPIO.output(self.dir1, GPIO.LOW)
 
-        for i in range(10000):
+        for i in range(5000):
+            GPIO.output(self.step, GPIO.LOW)
+            time.sleep(self.delay)
+            GPIO.output(self.step, GPIO.HIGH)
+            time.sleep(self.delay)
+        GPIO.output(self.dir1, GPIO.HIGH)
+        for i in range(5000):
             GPIO.output(self.step, GPIO.LOW)
             time.sleep(self.delay)
             GPIO.output(self.step, GPIO.HIGH)
             time.sleep(self.delay)
 
-    def LeftTurn(self):
-        GPIO.output(self.dir1, GPIO.HIGH)
-        for i in range(10000):
-            GPIO.output(self.step, GPIO.LOW)
-            time.sleep(self.delay)
-            GPIO.output(self.step, GPIO.HIGH)
-            time.sleep(self.delay)
-    
+   
     def LeftTurnGram(self, grams):
         GPIO.output(self.dir1, GPIO.HIGH)
         for i in range(1000*grams):
@@ -67,7 +66,7 @@ if __name__ == "__main__":
     #pasta_port.configure()
     x = int(input("Pasta, yk, oder configure[2]"))
     if x==1:
-        pasta_port.LeftTurn()
+        pasta_port.turn()
     elif x==2:
         pasta_port.configure()
 
