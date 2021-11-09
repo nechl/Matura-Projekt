@@ -34,11 +34,18 @@ class PastaPortioner():
    
     def LeftTurnGram(self, grams):
         GPIO.output(self.dir1, GPIO.HIGH)
-        for i in range(1000*grams):
-            GPIO.output(self.step, GPIO.LOW)
-            time.sleep(self.delay)
-            GPIO.output(self.step, GPIO.HIGH)
-            time.sleep(self.delay)
+        for i in range(round(13 * (grams/100), 0)):
+            for i in range(1000):
+                GPIO.output(self.step, GPIO.LOW)
+                time.sleep(self.delay)
+                GPIO.output(self.step, GPIO.HIGH)
+                time.sleep(self.delay)
+            GPIO.output(self.dir1, GPIO.LOW)
+            for i in range(1000):
+                GPIO.output(self.step, GPIO.LOW)
+                time.sleep(self.delay)
+                GPIO.output(self.step, GPIO.HIGH)
+                time.sleep(self.delay)
     def configure(self):
         l = 0
         for i in range(10):
