@@ -34,7 +34,10 @@ class Valve():
 
         GPIO.output(self.valve_in_1, GPIO.LOW)
         GPIO.output(self.valve_in_2, GPIO.LOW)
-
+    def configure(self):
+        self.openValve()
+        time.sleep(2)
+        self.closeValve()
     def destroy(self):
         GPIO.output(self.valve_in_1, GPIO.LOW)
         GPIO.output(self.valve_in_2, GPIO.LOW)
@@ -51,6 +54,8 @@ if __name__ == "__main__":
             elif x == "2":
                 print("[+]Close Valve")
                 valve.closeValve()
+            elif x == "3":
+                print("[+]Testing Valve")
             else:
                 pass
     except KeyboardInterrupt:
