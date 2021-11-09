@@ -62,7 +62,7 @@ class CookBot():
 
             # 1) let the cooking pot up
             print(self.name, ": Moving the cooking pot up")
-            self.linservo.UpStepDistance(1)
+            self.linservo.UpStepDistance(5)
             
             # 2) let the water in, based on the amount in the db
             print(self.name, ": Letting water in")
@@ -102,7 +102,7 @@ class CookBot():
                     
                     # 7) let the cooking pot down
                     print("[+]",self.name, ": Runterlassen des Kochtopfes...")
-                    self.linservo.DownStepDistance(1)
+                    self.linservo.DownStepDistance(15)
                 
                     # 8) wait
                     print("[+]",self.name, ": Nun drehen wir Däumchen bis die 500 Sekunden abgelaufen sind...")
@@ -114,7 +114,7 @@ class CookBot():
 
                     # 10) drive the cooking pot up
                     print("[+]",self.name, ": Nun wird der Kochtopf hochgelassen...")
-                    self.linservo.UpStepDistance(1)
+                    self.linservo.UpStepDistance(15)
 
                     print("[+]",self.name, ": Nun sind wir fertig...")
                     break
