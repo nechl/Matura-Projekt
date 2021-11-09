@@ -74,7 +74,7 @@ class CookBot():
             
             while True:
                 # 4) Now check if the temperature is already high enough to start cooking the pasta...
-                print(self.name, ": Temperatur wird nun alle 30 Sekunden gemessen, sobald sie höher wie 95°C ist wird gekocht.")
+                print("[+]",self.name, ": Temperatur wird nun alle 30 Sekunden gemessen, sobald sie höher wie 95°C ist wird gekocht.")
 
                 ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
                 ser.flush()
@@ -93,39 +93,39 @@ class CookBot():
                 if int(temperature) > 95:
 
                     # 5) Now salt the pasta:
-                    print(self.name, ": Nun wird die Pasta gesalzen.")
+                    print("[+]",self.name, ": Nun wird die Pasta gesalzen.")
                     self.salz_streuer.mahlen()
 
                     # 6) let the pasta in
-                    print(self.name, ": Nun wird die Pasta reingelassen...")
+                    print("[+]",self.name, ": Nun wird die Pasta reingelassen...")
                     self.pastaPortioner.LeftTurnGram(order.amount)
                     
                     # 7) let the cooking pot down
-                    print(self.name, ": Runterlassen des Kochtopfes...")
+                    print("[+]",self.name, ": Runterlassen des Kochtopfes...")
                     self.linservo.DownStepDistance(1)
                 
                     # 8) wait
-                    print(self.name, ": Nun drehen wir Däumchen bis die 500 Sekunden abgelaufen sind...")
+                    print("[+]",self.name, ": Nun drehen wir Däumchen bis die 500 Sekunden abgelaufen sind...")
                     time.sleep(TimeToCook*60)
 
                     # 9) shut down the funksteckdose
-                    print(self.name, ": Nun wird die Steckdose fürs Kochen abgeschaltet...")
+                    print("[+]",self.name, ": Nun wird die Steckdose fürs Kochen abgeschaltet...")
                     self.funksteckdose.abschalten()
 
                     # 10) drive the cooking pot up
-                    print(self.name, ": Nun wird der Kochtopf hochgelassen...")
+                    print("[+]",self.name, ": Nun wird der Kochtopf hochgelassen...")
                     self.linservo.UpStepDistance(1)
 
-                    print(self.name, ": Nun sind wir fertig...")
+                    print("[+]",self.name, ": Nun sind wir fertig...")
                     break
 
                 else:
-                    print(self.name, ":  ", temp)
+                    print("[+]",self.name, ":  ", temp)
                 time.sleep(5)
 
         except BaseException as e:
             try:
-                print("Okay, we have a problem, shutting services down")
+                print("[+]","Okay, we have a problem, shutting services down")
                 print(e)
                 self.linservo.destroy()
                 self.valve.destroy()
