@@ -10,7 +10,7 @@ class Valve():
     def __init__(self, valve1, valve2):
         self.valve_in_1 = valve1
         self.valve_in_2 = valve2
-        self.constantLitersPerSecond = 1.0
+        self.constantSecondsPerLiter = 10
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.valve_in_1, GPIO.OUT)
         GPIO.setup(self.valve_in_2, GPIO.OUT)
@@ -30,23 +30,18 @@ class Valve():
         GPIO.output(self.valve_in_1, GPIO.HIGH)
         GPIO.output(self.valve_in_2, GPIO.LOW)
 
-        time.sleep(liters / self.constantLitersPerSecond)
+        time.sleep(self.constantSecondsPerLiter * liters)
 
         GPIO.output(self.valve_in_1, GPIO.LOW)
         GPIO.output(self.valve_in_2, GPIO.LOW)
-    def configure(self):
-        GPIO.output(self.valve_in_1, GPIO.HIGH)
-        GPIO.output(self.valve_in_2, GPIO.LOW)
-        time.sleep(2)
-        GPIO.output(self.valve_in_1, GPIO.LOW)
-        GPIO.output(self.valve_in_2, GPIO.LOW)
+   
     def destroy(self):
         GPIO.output(self.valve_in_1, GPIO.LOW)
         GPIO.output(self.valve_in_2, GPIO.LOW)
         GPIO.cleanup()
 
 if __name__ == "__main__":
-    valve = Valve([21,20])
+    valve = Valve(21,20)
     try:
         while True:
             x = str(input("Open/Close[1/2]"))
@@ -58,7 +53,8 @@ if __name__ == "__main__":
                 valve.closeValve()
             elif x == "3":
                 print("[+]Testing Valve")
-            else:
-                pass
+            elif x == "4":
+
+                valve.openValveForLiters(3.5)
     except KeyboardInterrupt:
         valve.destroy()

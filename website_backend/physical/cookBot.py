@@ -66,8 +66,8 @@ class CookBot():
             
             # 2) let the water in, based on the amount in the db
             print(self.name, ": Letting water in")
-            self.valve.openValveForLiters(order.amount/1000 * water_amount_per_1000_g)
-
+            #self.valve.openValveForLiters(order.amount/1000 * water_amount_per_1000_g)
+            self.valve.openValveForLiters(3.5)
             # 3) boil the water
             print(self.name, ": Boil the water")
             self.funksteckdose.anschalten()
