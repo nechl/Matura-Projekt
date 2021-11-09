@@ -133,3 +133,6 @@ class CookBot():
                 self.pastaPortioner.destroy()
             except BaseException as e2:
                 print(e2)
+
+if __name__ == "__main__":
+    cookbot = CookBot("Rata")

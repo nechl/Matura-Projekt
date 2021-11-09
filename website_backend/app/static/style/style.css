@@ -22,4 +22,7 @@ tr#orders:nth-child(even){
     div.Login{
         width: 100%;
     }
+    #username{
+        width:100%;
+    }
   }

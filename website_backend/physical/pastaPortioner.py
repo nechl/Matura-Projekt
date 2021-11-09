@@ -65,7 +65,9 @@ class PastaPortioner():
 if __name__ == "__main__":
     pasta_port = PastaPortioner(23, 24)
     #pasta_port.configure()
-    x = int(input("Pasta, yk"))
+    x = int(input("Pasta, yk, oder configure[2]"))
     if x==1:
         pasta_port.LeftTurn()
+    elif x==2:
+        pasta_port.configure()
 
