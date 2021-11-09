@@ -42,9 +42,15 @@ class PastaPortioner():
     def configure(self):
         l = 0
         for i in range(10):
+            GPIO.output(self.dir1, GPIO.LOW)
+
+            for i in range(1000):
+                GPIO.output(self.step, GPIO.LOW)
+                time.sleep(self.delay)
+                GPIO.output(self.step, GPIO.HIGH)
+                time.sleep(self.delay)
             GPIO.output(self.dir1, GPIO.HIGH)
-            
-            for i in range(10000):
+            for i in range(1000):
                 GPIO.output(self.step, GPIO.LOW)
                 time.sleep(self.delay)
                 GPIO.output(self.step, GPIO.HIGH)
@@ -52,8 +58,8 @@ class PastaPortioner():
 
             menge = int(input("How many grams were that? "))
             l += menge
-        gramm_pro_umdrehung = l/100000
-        umdrehung_pro_50_gramm = (100000 / l) * 50
+        gramm_pro_umdrehung = l/20000
+        umdrehung_pro_50_gramm = (20000 / l) * 50
         print(umdrehung_pro_50_gramm)
 
     def destroy(self):
