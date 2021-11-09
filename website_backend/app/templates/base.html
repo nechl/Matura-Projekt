@@ -1,11 +1,11 @@
 <html>
     <head>
         <link rel="stylesheet" href=" {{ url_for('static', filename='style/style.css') }}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         {% if title %}
         <title>{{ title }} - KochBot</title>
         {% else %}
         <title></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         {% endif %}
     </head>
 
@@ -31,6 +31,7 @@
         </ul>
         {% endif %}
         {% endwith %}
+        
         {% block content %}{% endblock %}
     </body>
 </html>
