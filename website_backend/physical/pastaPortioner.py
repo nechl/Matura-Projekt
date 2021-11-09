@@ -84,5 +84,7 @@ if __name__ == "__main__":
                 pasta_port.turn()
             elif x==2:
                 pasta_port.configure()
+            if x==3:
+                pasta_port.LeftTurnGram(50)
     except KeyboardInterrupt as e:
         print(e)
