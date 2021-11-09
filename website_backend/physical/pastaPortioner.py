@@ -64,9 +64,12 @@ class PastaPortioner():
 if __name__ == "__main__":
     pasta_port = PastaPortioner(23, 24)
     #pasta_port.configure()
-    x = int(input("Pasta, yk, oder configure[2]"))
-    if x==1:
-        pasta_port.turn()
-    elif x==2:
-        pasta_port.configure()
-
+    try:
+        while True:
+            x = int(input("Pasta, yk, oder configure[2]"))
+            if x==1:
+                pasta_port.turn()
+            elif x==2:
+                pasta_port.configure()
+    except KeyboardInterrupt as e:
+        print(e)
