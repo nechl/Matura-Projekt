@@ -46,7 +46,7 @@ class Valve():
         GPIO.cleanup()
 
 if __name__ == "__main__":
-    valve = Valve([21,20])
+    valve = Valve(21,20)
     try:
         while True:
             x = str(input("Open/Close[1/2]"))
