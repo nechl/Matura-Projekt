@@ -35,9 +35,11 @@ class Valve():
         GPIO.output(self.valve_in_1, GPIO.LOW)
         GPIO.output(self.valve_in_2, GPIO.LOW)
     def configure(self):
-        self.openValve()
+        GPIO.output(self.valve_in_1, GPIO.HIGH)
+        GPIO.output(self.valve_in_2, GPIO.LOW)
         time.sleep(2)
-        self.closeValve()
+        GPIO.output(self.valve_in_1, GPIO.LOW)
+        GPIO.output(self.valve_in_2, GPIO.LOW)
     def destroy(self):
         GPIO.output(self.valve_in_1, GPIO.LOW)
         GPIO.output(self.valve_in_2, GPIO.LOW)
