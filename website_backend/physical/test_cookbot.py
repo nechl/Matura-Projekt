@@ -43,25 +43,24 @@ class CookBot():
             #db.session.add(order_to_edit)
             #db.session.commit()
             # Opening JSON file
-            #f = open('data_recipe.json',)
+            f = open('data_recipe.json',)
         
             # returns JSON object as 
             # a dictionary
-            #data = json.load(f)
+            data = json.load(f)
             
             # Iterating through the json
             # list
-            #for recipe in data['recipes']:
-            #    if recipe["compound"] == order.food:
-            #        TimeToCook = (recipe["time_in_water"])
-            #        water_amount_per_1000_g = (recipe["water_amount_per_1000_g"])
-            #        print(TimeToCook)
-            #        print(water_amount_per_1000_g)
-            TimeToCook =10
-            water_amount_per_1000_g = 3.5
-
+            for recipe in data['recipes']:
+                if recipe["compound"] == order.food:
+                    TimeToCook = (recipe["time_in_water"])
+                    water_amount_per_1000_g = (recipe["water_amount_per_1000_g"])
+                    print(TimeToCook)
+                    print(water_amount_per_1000_g)
+        
             # Closing file
-            #f.close()
+            f.close()
+            
             #HOW TO COOK
 
             # 1) let the cooking pot up
@@ -140,3 +139,4 @@ class CookBot():
 
 if __name__ == "__main__":
     cookbot = CookBot("Rata")
+    order= 
