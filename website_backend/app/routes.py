@@ -7,7 +7,7 @@ from app.models import User, Order
 import datetime
 import json
 from datetime import timedelta, datetime
-#from physical.cookBot import CookBot
+from physical.cookBot import CookBot
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
@@ -17,7 +17,7 @@ jobstores = {
 }
 scheduler = BackgroundScheduler(jobstores = jobstores)
 scheduler.start()
-#cookbot = CookBot("Ratatouile")
+cookbot = CookBot("Ratatouile")
     
 def my_test(order):
     print(order)
@@ -117,8 +117,8 @@ def order():
         #db.session.flush()
         db.session.commit()
         
-        scheduler.add_job(my_test, 'date', run_date=start_at, args=[order],id = str(order.id))
-        #scheduler.add_job(cookbot.cook, 'date', run_date=order.start_at, args=[order], id=str(order.id))
+        #scheduler.add_job(my_test, 'date', run_date=start_at, args=[order],id = str(order.id))
+        scheduler.add_job(cookbot.cook, 'date', run_date=order.start_at, args=[order], id=str(order.id))
 
         for job in scheduler.get_jobs():
             print(job.id, end = ': ')
