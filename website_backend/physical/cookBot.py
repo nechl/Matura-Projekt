@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 import json
+import serial
+import time
 class CookBot():
     try:
         from app import app, db
@@ -16,11 +18,12 @@ class CookBot():
         from physical.salzstreuer import salz_streuer
         from physical.funksteckdose import Funksteckdose
         from physical.pastaPortioner import PastaPortioner
-        from physical.temperatur import Temperature
+        #from physical.temperatur import Temperature
         
     except ModuleNotFoundError as e:
         print(e)
     import json
+    import serial
     #pinout is the following: 
     #used pins: 17,27,21,20,18,23,24
     
@@ -29,7 +32,7 @@ class CookBot():
     salz_streuer = salz_streuer(18)
     funksteckdose = Funksteckdose()
     pastaPortioner = PastaPortioner(23,24)
-    temperature = Temperature()
+    #temperature = Temperature()
 
     def __init__(self, name):
         self.name = name
@@ -94,9 +97,9 @@ class CookBot():
                         
                 
                 
-                if int(temperature) > 95:
+                if temp != '' and float(temp) > 95:
 
-                    # 5) Now salt the pasta:
+                    # 5) Now salt the water:
                     print("[+]",self.name, ": Nun wird die Pasta gesalzen.")
                     self.salz_streuer.mahlen()
 
