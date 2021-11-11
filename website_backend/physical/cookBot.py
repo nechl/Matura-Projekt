@@ -81,17 +81,17 @@ class CookBot():
             temp = 20.0
             while True:
                 # 4) Now check if the temperature is already high enough to start cooking the pasta...
-                print("[+]",self.name, ": Temperatur wird nun alle 30 Sekunden gemessen, sobald sie höher wie 95°C ist wird gekocht.")
+                print("[+]",self.name, ": Temperatur wird nun alle 0.05 Sekunden gemessen, sobald sie höher wie 95°C ist wird gekocht.")
 
                 ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
                 ser.flush()
                 
-                if ser.in_waiting > 0:
+                if ser.in_waiting() > 0:
                     temp = ser.readline().decode('utf-8').rstrip()
                     print(temp)
                     
                 else:
-                    print("No temperature fetched...", temp)                     
+                    print("No temperature fetched...", str(temp))
                 
                 
                 if temp != '' and float(temp) > 95:
