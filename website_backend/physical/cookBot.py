@@ -87,14 +87,14 @@ class CookBot():
                 ser.flush()
                 
                 if ser.in_waiting() > 0:
-                    temp = ser.readline().decode('utf-8').rstrip()
-                    print(temp)
+                    temp = float(ser.readline().decode('utf-8').rstrip())
+                    print(str(temp))
                     
                 else:
                     print("No temperature fetched...", str(temp))
                 
                 
-                if temp != '' and float(temp) > 95:
+                if str(temp) != '' and float(temp) > 95.0:
 
                     # 5) Now salt the water:
                     print("[+]",self.name, ": Nun wird die Pasta gesalzen.")

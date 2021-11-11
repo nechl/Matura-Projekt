@@ -10,7 +10,7 @@ class Valve():
     def __init__(self, valve1, valve2):
         self.valve_in_1 = valve1
         self.valve_in_2 = valve2
-        self.constantSecondsPerLiter = 10
+        self.constantSecondsPerLiter = 8
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(self.valve_in_1, GPIO.OUT)
         GPIO.setup(self.valve_in_2, GPIO.OUT)
