@@ -78,7 +78,7 @@ class CookBot():
             # 3) boil the water
             print(self.name, ": Boil the water")
             self.funksteckdose.anschalten()
-            
+            temp = 20
             while True:
                 # 4) Now check if the temperature is already high enough to start cooking the pasta...
                 print("[+]",self.name, ": Temperatur wird nun alle 30 Sekunden gemessen, sobald sie höher wie 95°C ist wird gekocht.")
@@ -86,15 +86,12 @@ class CookBot():
                 ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
                 ser.flush()
                 
-                if ser.in_waiting < 0:
-                    temp = 20
-                    print("No number pushed - Waiting")
+                if ser.in_waiting > 0:
+                    temp = ser.readline().decode('utf-8').rstrip()
                     print(temp)
                     
                 else:
-                    temp = ser.readline().decode('utf-8').rstrip()
-                    print(temp)
-                        
+                    pass                     
                 
                 
                 if temp != '' and float(temp) > 95:
