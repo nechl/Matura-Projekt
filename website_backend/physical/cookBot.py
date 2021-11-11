@@ -78,7 +78,7 @@ class CookBot():
             # 3) boil the water
             print(self.name, ": Boil the water")
             self.funksteckdose.anschalten()
-            temp = 20
+            temp = 20.0
             while True:
                 # 4) Now check if the temperature is already high enough to start cooking the pasta...
                 print("[+]",self.name, ": Temperatur wird nun alle 30 Sekunden gemessen, sobald sie höher wie 95°C ist wird gekocht.")
@@ -91,7 +91,7 @@ class CookBot():
                     print(temp)
                     
                 else:
-                    pass                     
+                    print("No temperature fetched...", temp)                     
                 
                 
                 if temp != '' and float(temp) > 95:
@@ -125,7 +125,7 @@ class CookBot():
 
                 else:
                     print("[+]",self.name, ":  ", temp)
-                time.sleep(5)
+                time.sleep(0.05)
 
         except BaseException as e:
             try:
