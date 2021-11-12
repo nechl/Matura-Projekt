@@ -79,22 +79,23 @@ class CookBot():
             print(self.name, ": Boil the water")
             self.funksteckdose.anschalten()
             temp = 20.0
+
             while True:
                 # 4) Now check if the temperature is already high enough to start cooking the pasta...
-                print("[+]",self.name, ": Temperatur wird nun alle 0.05 Sekunden gemessen, sobald sie höher wie 95°C ist wird gekocht.")
+                print("[+]",self.name, ": Temperatur wird nun gemessen, sobald sie höher wie 95°C ist wird gekocht.")
 
                 ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
                 ser.flush()
                 
-                if ser.in_waiting() > 0:
-                    temp = float(ser.readline().decode('utf-8').rstrip())
+                if ser.in_waiting > 0:
+                    temp = ser.readline().decode('utf-8').rstrip()
                     print(str(temp))
-                    
+                    temp = float(temp)
+
                 else:
                     print("No temperature fetched...", str(temp))
                 
-                
-                if str(temp) != '' and float(temp) > 95.0:
+                if temp != '' and float(temp) > 95.0:
 
                     # 5) Now salt the water:
                     print("[+]",self.name, ": Nun wird die Pasta gesalzen.")
@@ -109,7 +110,7 @@ class CookBot():
                     self.linservo.DownStepDistance(15)
                 
                     # 8) wait
-                    print("[+]",self.name, ": Nun drehen wir Däumchen bis die 500 Sekunden abgelaufen sind...")
+                    print("[+]",self.name, ": Nun drehen wir Däumchen bis die "+ str(TimeToCook) +" Sekunden abgelaufen sind...")
                     time.sleep(TimeToCook*60)
 
                     # 9) shut down the funksteckdose
@@ -124,17 +125,19 @@ class CookBot():
                     break
 
                 else:
-                    print("[+]",self.name, ":  ", temp)
+                    print("[+]",self.name, ":  ", str(temp))
                 time.sleep(0.05)
 
         except BaseException as e:
             try:
                 print("[+]","Okay, we have a problem, shutting services down")
+                self.funksteckdose.abschalten()
                 print(e)
                 self.linservo.destroy()
                 self.valve.destroy()
                 self.salz_streuer.destroy()
                 self.pastaPortioner.destroy()
+                
             except BaseException as e2:
                 print(e2)
 
