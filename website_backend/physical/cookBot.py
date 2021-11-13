@@ -3,10 +3,9 @@ import json
 import serial
 import time
 class CookBot():
+    from app import app, db
+    from app.models import Order
     try:
-        from app import app, db
-        from app.models import Order
-
         import RPi.GPIO as GPIO
         import time
         import serial
@@ -19,6 +18,7 @@ class CookBot():
         from physical.funksteckdose import Funksteckdose
         from physical.pastaPortioner import PastaPortioner
         #from physical.temperatur import Temperature
+        GPIO.setwarnings(False)
         
     except ModuleNotFoundError as e:
         print(e)
@@ -41,10 +41,11 @@ class CookBot():
         try:
             print(order)
             #Change atrribute in database to cooking, so that you know that it is in preparation.
-            #order_to_edit = Order.query.filter_by(id=order.id).first_or_404()
-            #order_to_edit.cooking = True
-            #db.session.add(order_to_edit)
-            #db.session.commit()
+            order_to_edit = Order.query.filter_by(id=order.id).first_or_404()
+            order_to_edit.cooking = True
+            db.session.add(order_to_edit)
+            db.session.commit()
+            
             # Opening JSON file
             #f = open('data_recipe.json',)
         
@@ -74,7 +75,9 @@ class CookBot():
             # 2) let the water in, based on the amount in the db
             print(self.name, ": Letting water in")
             #self.valve.openValveForLiters(order.amount/1000 * water_amount_per_1000_g)
-            self.valve.openValveForLiters(3.5)
+            x = int(input("testing[0] or real[1]?"))
+            
+            self.valve.openValveForLiters(3.5) if x == 0 else print("Testing")
             # 3) boil the water
             print(self.name, ": Boil the water")
             self.funksteckdose.anschalten()
@@ -128,7 +131,7 @@ class CookBot():
                     print("[+]",self.name, ":  ", str(temp))
                 time.sleep(0.05)
 
-        except BaseException as e:
+        except KeyboardInterrupt as e:
             try:
                 print("[+]","Okay, we have a problem, shutting services down")
                 self.funksteckdose.abschalten()
