@@ -3,7 +3,7 @@ import json
 import serial
 import time
 class CookBot():
-    import app, db
+    #import app, db
     from app.models import Order
     try:
         import RPi.GPIO as GPIO
