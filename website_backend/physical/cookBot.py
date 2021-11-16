@@ -92,9 +92,12 @@ class CookBot():
                 
                 if ser.in_waiting > 0:
                     temp = ser.readline().decode('utf-8').rstrip()
-                    print(str(temp))
-                    print(temp)
-                    temp = float(temp)
+                    try:
+                        temp = float(temp)  
+                        print(str(temp))
+                        print(temp)  
+                    except ValueError as e:
+                        print(e)
 
                 else:
                     pass
