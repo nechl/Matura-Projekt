@@ -63,7 +63,7 @@ class CookBot():
             #        print(TimeToCook)
             #        print(water_amount_per_1000_g)
             TimeToCook =10
-            water_amount_per_1000_g = 4
+            water_amount_per_1000_g = 2
 
             # Closing file
             #f.close()
@@ -101,7 +101,7 @@ class CookBot():
 
 
                 try:
-                    if temp != '' and float(temp) > 88.0:
+                    if temp != '' and float(temp) > 85.0:
 
                         # 5) Now salt the water:
                         print("[+]",self.name, ": Nun wird die Pasta gesalzen.")
