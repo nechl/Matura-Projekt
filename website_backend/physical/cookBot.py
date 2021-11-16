@@ -99,8 +99,7 @@ class CookBot():
                     except ValueError as e:
                         print(e)
 
-                else:
-                    pass
+
                 try:
                     if temp != '' and float(temp) > 95.0:
 
