@@ -26,4 +26,4 @@ if __name__ == "__main__":
             print(line)
             print(type(line))
         else:
-            print("None")
+            print("-", end="")
