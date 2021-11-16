@@ -2,6 +2,7 @@
 import json
 import serial
 import time
+from datetime import datetime
 class CookBot():
     #import app, db
     from app.models import Order
@@ -62,7 +63,7 @@ class CookBot():
             #        print(TimeToCook)
             #        print(water_amount_per_1000_g)
             TimeToCook =10
-            water_amount_per_1000_g = 3.5
+            water_amount_per_1000_g = 4
 
             # Closing file
             #f.close()
@@ -77,7 +78,7 @@ class CookBot():
             #self.valve.openValveForLiters(order.amount/1000 * water_amount_per_1000_g)
             x = int(input("testing[0] or real[1]?"))
             if x == 1:
-                self.valve.openValveForLiters(3.5)
+                self.valve.openValveForLiters(water_amount_per_1000_g)
             else:
                 pass
             # 3) boil the water
@@ -112,11 +113,13 @@ class CookBot():
                         
                         # 7) let the cooking pot down
                         print("[+]",self.name, ": Runterlassen des Kochtopfes...")
-                        self.linservo.DownStepDistance(15)
+                        self.linservo.DownStepDistance(20)
                     
                         # 8) wait
                         print("[+]",self.name, ": Nun drehen wir Däumchen bis die "+ str(TimeToCook) +" Sekunden abgelaufen sind...")
+                        print("Wird um ", datetime.now().strftime("%H:%M, %d.%m.%Y"), " beendet.")
                         time.sleep(TimeToCook*60)
+
 
                         # 9) shut down the funksteckdose
                         print("[+]",self.name, ": Nun wird die Steckdose fürs Kochen abgeschaltet...")
@@ -124,7 +127,7 @@ class CookBot():
 
                         # 10) drive the cooking pot up
                         print("[+]",self.name, ": Nun wird der Kochtopf hochgelassen...")
-                        self.linservo.UpStepDistance(15)
+                        self.linservo.UpStepDistance(20)
 
                         print("[+]",self.name, ": Nun sind wir fertig...")
                         break
