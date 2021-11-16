@@ -130,7 +130,7 @@ class CookBot():
 
                 else:
                     pass
-                time.sleep(1)
+                
 
         except KeyboardInterrupt as e:
             try:
