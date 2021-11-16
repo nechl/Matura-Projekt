@@ -76,20 +76,20 @@ class CookBot():
             print(self.name, ": Letting water in")
             #self.valve.openValveForLiters(order.amount/1000 * water_amount_per_1000_g)
             x = int(input("testing[0] or real[1]?"))
-            
-            self.valve.openValveForLiters(3.5)
+            if x == 1:
+                self.valve.openValveForLiters(3.5)
+            else:
+                pass
             # 3) boil the water
             print(self.name, ": Boil the water")
             self.funksteckdose.anschalten()
             temp = 20.0
-
+            ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
+            ser.flush()
             while True:
                 # 4) Now check if the temperature is already high enough to start cooking the pasta...
                 print("[+]",self.name, ": Temperatur wird nun gemessen, sobald sie höher wie 95°C ist wird gekocht.")
-
-                ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
-                ser.flush()
-                
+           
                 if ser.in_waiting > 0:
                     temp = ser.readline().decode('utf-8').rstrip()
                     try:
