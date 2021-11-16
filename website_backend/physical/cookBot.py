@@ -88,7 +88,6 @@ class CookBot():
             ser.flush()
             while True:
                 # 4) Now check if the temperature is already high enough to start cooking the pasta...
-                print("[+]", end="")
            
                 if ser.in_waiting > 0:
                     temp = ser.readline().decode('utf-8').rstrip()
