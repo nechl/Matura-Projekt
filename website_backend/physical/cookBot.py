@@ -77,7 +77,7 @@ class CookBot():
             #self.valve.openValveForLiters(order.amount/1000 * water_amount_per_1000_g)
             x = int(input("testing[0] or real[1]?"))
             
-            self.valve.openValveForLiters(3.5) if x == 0 else print("Testing")
+            self.valve.openValveForLiters(3.5)
             # 3) boil the water
             print(self.name, ": Boil the water")
             self.funksteckdose.anschalten()
