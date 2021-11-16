@@ -1,30 +1,27 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Order Food!</h1>
-    <form action="" method="post" novalidate>
+    <p>You can order food here, which will be prepared by our beloved chef <b>CookBot</b> within the given time.</p>
+    <form class="order" action="" method="post" novalidate>
         {{ form.hidden_tag() }}
         <p> 
             {{ form.material.label }}<br>
-            {{ form.material() }}<br>
+            {{ form.material(class="orderMaterial") }}<br>
         </p>
         <p>
             {{ form.amount.label }}<br>
-            {{ form.amount() }}<br>
+            {{ form.amount(size=32, class="orderAmount") }}<br>
             {% for error in form.amount.errors%}
             <span style="color:red;">{{ error }}</span>
             {% endfor %}
         </p>
         <p>
-            {{ form.date.label }}<br>
-            {{ form.date() }}<br>
-        </p>
-        <p>
-            {{ form.time.label }}<br>
-            {{ form.time() }}<br>
+            {{ form.date(size=32, class="orderDate") }}
+            
+            {{ form.time(size=32, class="orderTime") }}
         </p>
         
-        <p>{{ form.submit() }}</p>
+        <p>{{ form.submit(class="orderSubmit") }}</p>
     </form>
     {% for order in orders %}
     <p>

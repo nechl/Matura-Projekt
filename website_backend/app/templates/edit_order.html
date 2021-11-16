@@ -6,18 +6,18 @@
         {{ form.hidden_tag() }}
         <p>
             {{ form.amount.label }}<br>
-            {{ form.amount(size=32) }}<br>
+            {{ form.amount(size=32, class="editOrderAmount") }}<br>
             {% for error in form.amount.errors %}
                 <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
         <p>
             {{ form.date.label }}
-            {{ form.date() }}
+            {{ form.date(class="editOrderDate") }}
         </p>
         <p>
             {{ form.time.label }}
-            {{ form.time()}}
+            {{ form.time(class="editOrderTime")}}
 
         </p>
         <p>{{ form.submit() }}</p>

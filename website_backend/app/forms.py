@@ -14,8 +14,8 @@ class LoginForm(FlaskForm):
 class AddOrder(FlaskForm):
     material = SelectField("What do you want to order?", choices = ['-','Hoernli'])
     amount = IntegerField("How much do you want in [g]?", validators=[DataRequired()])
-    date = DateField("On what date do you want it?", validators=[DataRequired()])
-    time = TimeField("On what time do you want it?", validators=[DataRequired()])
+    date = DateField("Time? ", validators=[DataRequired()])
+    time = TimeField("Date?", validators=[DataRequired()])
     submit = SubmitField('Order Now')
 
 class EditProfileForm(FlaskForm):
