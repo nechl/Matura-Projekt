@@ -5,12 +5,16 @@ table#orders{
     width: 100%;
 }
 
-td#orders, th#orders{
+td#orders, th#orders, th#orders_header{
     border: 1px solid #dddddd;
     text-align: left;
     padding: 8px;
+    font-weight: normal;
 }
-
+tr#orders_header{
+    font-weight: bold;
+    border-bottom: 2px solid black;
+}
 tr#orders:nth-child(even){
     background-color: #dddddd;
 }
@@ -37,6 +41,7 @@ input.orderTime{
 }
 
 
+
 @media screen and (max-width: 800px) {
     input.username, input.password{
         width:95vw;
@@ -49,7 +54,7 @@ input.orderTime{
     }
 
     form.order{
-        width:80vw;
+        width:calc(100vw - 16px);
 
     }
     select.orderMaterial{
@@ -75,4 +80,4 @@ input.orderTime{
         color:black;
     }
     
-  }
+}

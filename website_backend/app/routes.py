@@ -6,7 +6,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Order
 import datetime
 from datetime import timedelta, datetime
-from physical.cookBot import CookBot
+#from physical.cookBot import CookBot
 import json
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.jobstores.sqlalchemy import SQLAlchemyJobStore
@@ -16,7 +16,7 @@ jobstores = {
 }
 scheduler = BackgroundScheduler(jobstores = jobstores)
 scheduler.start()
-cookbot = CookBot("Ratatouile")
+#cookbot = CookBot("Ratatouile")
     
 def my_test(order):
     print(order)
@@ -25,7 +25,7 @@ def my_test(order):
     db.session.add(order_to_edit)
     db.session.commit()
 
-#homepage
+#Welcome Page
 @app.route('/')
 @app.route('/index')
 @login_required
@@ -34,7 +34,7 @@ def index():
     orders_cooked = Order.query.filter_by(cooking = True).order_by(Order.finished_at.asc()).all()
     return render_template('index.html', title='Home', orders=orders, orders_cooked = orders_cooked)
 
-#login worker
+#Login Page/Worker
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -52,12 +52,13 @@ def login():
         return redirect(next_page)
     return render_template('login.html', title='Sign In', form=form)
 
-#logout worker
+#Logout Page/ Worker
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
 
+#User Page
 @app.route('/user/<username>')
 @login_required
 def user(username):
@@ -65,6 +66,7 @@ def user(username):
     orders = Order.query.order_by(Order.finished_at.asc()).all()
     return render_template('user.html', user=user, orders=orders)
 
+#Edit User Page
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
@@ -116,8 +118,8 @@ def order():
         #db.session.flush()
         db.session.commit()
         
-        #scheduler.add_job(my_test, 'date', run_date=start_at, args=[order],id = str(order.id))
-        scheduler.add_job(cookbot.cook, 'date', run_date=order.start_at, args=[order], id=str(order.id))
+        scheduler.add_job(my_test, 'date', run_date=order.start_at, args=[order], id=str(order.id))
+        #scheduler.add_job(cookbot.cook, 'date', run_date=order.start_at, args=[order], id=str(order.id))
 
         for job in scheduler.get_jobs():
             print(job.id, end = ': ')
