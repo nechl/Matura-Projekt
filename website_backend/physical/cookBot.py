@@ -97,7 +97,7 @@ class CookBot():
                     temp = float(temp)
 
                 else:
-                    print("No temperature fetched...", str(temp))
+                    pass
                 
                 if temp != '' and float(temp) > 95.0:
 
@@ -129,7 +129,7 @@ class CookBot():
                     break
 
                 else:
-                    print("[+]",self.name, ":  ", str(temp))
+                    pass
                 time.sleep(1)
 
         except KeyboardInterrupt as e:
