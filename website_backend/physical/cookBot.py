@@ -100,7 +100,7 @@ class CookBot():
 
 
                 try:
-                    if temp != '' and float(temp) > 95.0:
+                    if temp != '' and float(temp) > 88.0:
 
                         # 5) Now salt the water:
                         print("[+]",self.name, ": Nun wird die Pasta gesalzen.")
