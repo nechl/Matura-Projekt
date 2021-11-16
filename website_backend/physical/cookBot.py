@@ -88,7 +88,7 @@ class CookBot():
             ser.flush()
             while True:
                 # 4) Now check if the temperature is already high enough to start cooking the pasta...
-                print("[+]",self.name, ": Temperatur wird nun gemessen, sobald sie höher wie 95°C ist wird gekocht.")
+                print("[+]", end="")
            
                 if ser.in_waiting > 0:
                     temp = ser.readline().decode('utf-8').rstrip()
@@ -101,38 +101,37 @@ class CookBot():
 
                 else:
                     pass
-                
-                if temp != '' and float(temp) > 95.0:
+                try:
+                    if temp != '' and float(temp) > 95.0:
 
-                    # 5) Now salt the water:
-                    print("[+]",self.name, ": Nun wird die Pasta gesalzen.")
-                    self.salz_streuer.mahlen()
+                        # 5) Now salt the water:
+                        print("[+]",self.name, ": Nun wird die Pasta gesalzen.")
+                        self.salz_streuer.mahlen()
 
-                    # 6) let the pasta in
-                    print("[+]",self.name, ": Nun wird die Pasta reingelassen...")
-                    self.pastaPortioner.LeftTurnGram(order.amount)
+                        # 6) let the pasta in
+                        print("[+]",self.name, ": Nun wird die Pasta reingelassen...")
+                        self.pastaPortioner.LeftTurnGram(order.amount)
+                        
+                        # 7) let the cooking pot down
+                        print("[+]",self.name, ": Runterlassen des Kochtopfes...")
+                        self.linservo.DownStepDistance(15)
                     
-                    # 7) let the cooking pot down
-                    print("[+]",self.name, ": Runterlassen des Kochtopfes...")
-                    self.linservo.DownStepDistance(15)
-                
-                    # 8) wait
-                    print("[+]",self.name, ": Nun drehen wir Däumchen bis die "+ str(TimeToCook) +" Sekunden abgelaufen sind...")
-                    time.sleep(TimeToCook*60)
+                        # 8) wait
+                        print("[+]",self.name, ": Nun drehen wir Däumchen bis die "+ str(TimeToCook) +" Sekunden abgelaufen sind...")
+                        time.sleep(TimeToCook*60)
 
-                    # 9) shut down the funksteckdose
-                    print("[+]",self.name, ": Nun wird die Steckdose fürs Kochen abgeschaltet...")
-                    self.funksteckdose.abschalten()
+                        # 9) shut down the funksteckdose
+                        print("[+]",self.name, ": Nun wird die Steckdose fürs Kochen abgeschaltet...")
+                        self.funksteckdose.abschalten()
 
-                    # 10) drive the cooking pot up
-                    print("[+]",self.name, ": Nun wird der Kochtopf hochgelassen...")
-                    self.linservo.UpStepDistance(15)
+                        # 10) drive the cooking pot up
+                        print("[+]",self.name, ": Nun wird der Kochtopf hochgelassen...")
+                        self.linservo.UpStepDistance(15)
 
-                    print("[+]",self.name, ": Nun sind wir fertig...")
-                    break
-
-                else:
-                    pass
+                        print("[+]",self.name, ": Nun sind wir fertig...")
+                        break
+                except ValueError as e:
+                    print(e)            
                 
 
         except KeyboardInterrupt as e:

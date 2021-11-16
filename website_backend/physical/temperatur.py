@@ -25,3 +25,5 @@ if __name__ == "__main__":
             line = ser.readline().decode('utf-8').rstrip()
             print(line)
             print(type(line))
+        else:
+            print("None")
