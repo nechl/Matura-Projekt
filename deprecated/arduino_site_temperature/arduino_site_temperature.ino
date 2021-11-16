@@ -69,5 +69,5 @@ void loop() {
     thermo.clearFault();
   }
   
-  delay(200);
+  delay(1000);
 }

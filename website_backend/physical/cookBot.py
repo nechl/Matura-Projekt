@@ -130,7 +130,7 @@ class CookBot():
 
                 else:
                     print("[+]",self.name, ":  ", str(temp))
-                time.sleep(0.05)
+                time.sleep(1)
 
         except KeyboardInterrupt as e:
             try:
