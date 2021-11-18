@@ -2,10 +2,11 @@
 import json
 import serial
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 class CookBot():
     #import app, db
     from app.models import Order
+    from app import app, db
     try:
         import RPi.GPIO as GPIO
         import time
@@ -41,6 +42,8 @@ class CookBot():
     def cook(self, order):
         try:
             print(order)
+            log_file = open("log_file.txt", "a")
+            log_file.write("Order: ", str(order))
             #Change atrribute in database to cooking, so that you know that it is in preparation.
             #order_to_edit = Order.query.filter_by(id=order.id).first_or_404()
             #order_to_edit.cooking = True
@@ -92,12 +95,13 @@ class CookBot():
            
                 if ser.in_waiting > 0:
                     temp = ser.readline().decode('utf-8').rstrip()
+                    
                     try:
                         temp = float(temp)  
                         print(str(temp))
                         print(temp)  
                     except ValueError as e:
-                        print(e)
+                        log_file.write(datetime.now().strftime("[" , str(order.id), "]: " ,"%H:%M:%S, %d.%m.%Y occured an error: "),str(e))
 
 
                 try:
@@ -117,7 +121,7 @@ class CookBot():
                     
                         # 8) wait
                         print("[+]",self.name, ": Nun drehen wir Däumchen bis die "+ str(TimeToCook) +" Sekunden abgelaufen sind...")
-                        print("Wird um ", datetime.now().strftime("%H:%M, %d.%m.%Y"), " beendet.")
+                        print("[" , str(order.id), "]: " ,"Wird um ", (datetime.now()+timedelta(minutes = 10)).strftime("%H:%M:%S, %d.%m.%Y"), " beendet.")
                         time.sleep(TimeToCook*60)
 
 
@@ -132,10 +136,12 @@ class CookBot():
                         print("[+]",self.name, ": Nun sind wir fertig...")
                         break
                 except ValueError as e:
-                    print(e)            
+                    log_file.write(datetime.now().strftime("%H:%M:S, %d.%m.%Y occured an error: "),str(e))
+            
                 
 
         except KeyboardInterrupt as e:
+            log_file.write("[" , str(order.id), "]: " ,datetime.now().strftime("%H:%M:%S, %d.%m.%Y occured an error: "),str(e))
             try:
                 print("[+]","Okay, we have a problem, shutting services down")
                 self.funksteckdose.abschalten()
@@ -147,6 +153,9 @@ class CookBot():
                 
             except BaseException as e2:
                 print(e2)
+                log_file.write("[" , str(order.id), "]" " ,datetime.now().strftime("%H:%M:%S, %d.%m.%Y occured an error: "),str(e2))
+            log_file.write("--------------")
+            log_file.close()
 
 if __name__ == "__main__":
     cookbot = CookBot("Rata")
