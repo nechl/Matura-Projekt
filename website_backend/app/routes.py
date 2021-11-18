@@ -138,6 +138,7 @@ def order():
 def edit_order(id):
     form = EditOrderForm()
     order = Order.query.filter_by(id=id).first_or_404()
+    
     if form.validate_on_submit():
         order.amount = form.amount.data
         order.finished_at = datetime.combine(form.date.data, form.time.data)

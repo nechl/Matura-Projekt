@@ -3,10 +3,12 @@ import json
 import serial
 import time
 from datetime import datetime, timedelta
+
+from app.models import Order
+from app import app, db
 class CookBot():
     #import app, db
-    from app.models import Order
-    from app import app, db
+
     try:
         import RPi.GPIO as GPIO
         import time
@@ -45,10 +47,10 @@ class CookBot():
             log_file = open("log_file.txt", "a")
             log_file.write("Order: ", str(order))
             #Change atrribute in database to cooking, so that you know that it is in preparation.
-            #order_to_edit = Order.query.filter_by(id=order.id).first_or_404()
-            #order_to_edit.cooking = True
-            #db.session.add(order_to_edit)
-            #db.session.commit()
+
+            order.cooking = True
+            db.session.add(order)
+            db.session.commit()
             
             # Opening JSON file
             #f = open('data_recipe.json',)
