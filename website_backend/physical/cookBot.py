@@ -45,7 +45,7 @@ class CookBot():
         try:
             print(order)
             log_file = open("log_file.txt", "a")
-            log_file.write("Order: ", str(order))
+            log_file.write(str("Order: ", str(order)))
             #Change atrribute in database to cooking, so that you know that it is in preparation.
 
             order.cooking = True
@@ -103,7 +103,7 @@ class CookBot():
                         print(str(temp))
                         print(temp)  
                     except ValueError as e:
-                        log_file.write(datetime.now().strftime("[" , str(order.id), "]: " ,"%H:%M:%S, %d.%m.%Y occured an error: "),str(e))
+                        log_file.write(str(datetime.now().strftime("[" , str(order.id), "]: " ,"%H:%M:%S, %d.%m.%Y occured an error: "),str(e)))
 
 
                 try:
@@ -138,12 +138,12 @@ class CookBot():
                         print("[+]",self.name, ": Nun sind wir fertig...")
                         break
                 except ValueError as e:
-                    log_file.write(datetime.now().strftime("%H:%M:S, %d.%m.%Y occured an error: "),str(e))
+                    log_file.write(str(datetime.now().strftime("%H:%M:S, %d.%m.%Y occured an error: "),str(e)))
             
                 
 
         except KeyboardInterrupt as e:
-            log_file.write("[" , str(order.id), "]: " ,datetime.now().strftime("%H:%M:%S, %d.%m.%Y occured an error: "),str(e))
+            log_file.write(str("[" , str(order.id), "]: " ,datetime.now().strftime("%H:%M:%S, %d.%m.%Y occured an error: "),str(e)))
             try:
                 print("[+]","Okay, we have a problem, shutting services down")
                 self.funksteckdose.abschalten()
@@ -155,7 +155,7 @@ class CookBot():
                 
             except BaseException as e2:
                 print(e2)
-                log_file.write("[" , str(order.id), "]"  ,datetime.now().strftime("%H:%M:%S, %d.%m.%Y occured an error: "),str(e2))
+                log_file.write(str("[" , str(order.id), "]"  ,datetime.now().strftime("%H:%M:%S, %d.%m.%Y occured an error: "),str(e2)))
             log_file.write("--------------")
             log_file.close()
 
