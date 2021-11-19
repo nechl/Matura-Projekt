@@ -40,6 +40,9 @@ input.orderTime{
     float:right;
 }
 
+form.loginForm{
+    width:50vw;
+}
 
 
 @media screen and (max-width: 800px) {

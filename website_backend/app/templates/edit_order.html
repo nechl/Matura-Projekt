@@ -20,6 +20,11 @@
             {{ form.time(class="editOrderTime")}}
 
         </p>
+        <p>
+            {{ form.cooking.label }}
+            {{ form.cooking(class="editOrderTime")}}
+
+        </p>
         <p>{{ form.submit() }}</p>
     </form>
 {% endblock %}
