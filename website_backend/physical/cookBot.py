@@ -155,7 +155,7 @@ class CookBot():
                 
             except BaseException as e2:
                 print(e2)
-                log_file.write("[" , str(order.id), "]" " ,datetime.now().strftime("%H:%M:%S, %d.%m.%Y occured an error: "),str(e2))
+                log_file.write("[" , str(order.id), "]"  ,datetime.now().strftime("%H:%M:%S, %d.%m.%Y occured an error: "),str(e2))
             log_file.write("--------------")
             log_file.close()
 
