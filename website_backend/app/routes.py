@@ -114,16 +114,13 @@ def order():
         finished_at = datetime.combine(form.date.data, form.time.data)
         order = Order(food = form.material.data, finished_at = finished_at, start_at = start_at, amount = form.amount.data, user_id = current_user.username, cooking = False)
         #commit the new order to the database
-        if order.start_at > datetime.now():
-            db.session.add(order)
-            #db.session.flush()
-            db.session.commit()
-            
-            #scheduler.add_job(my_test, 'date', run_date=order.start_at, args=[order], id=str(order.id))
-            scheduler.add_job(cookbot.cook, 'date', run_date=order.start_at, args=[order], id=str(order.id))
-        else:
-            return redirect(url_for('order'))
-            
+        db.session.add(order)
+        #db.session.flush()
+        db.session.commit()
+        
+        #scheduler.add_job(my_test, 'date', run_date=order.start_at, args=[order], id=str(order.id))
+        scheduler.add_job(cookbot.cook, 'date', run_date=order.start_at, args=[order], id=str(order.id))
+
         for job in scheduler.get_jobs():
             print(job.id, end = ': ')
             print(job)
@@ -138,16 +135,10 @@ def order():
 def edit_order(id):
     form = EditOrderForm()
     order = Order.query.filter_by(id=id).first_or_404()
-    
     if form.validate_on_submit():
         order.amount = form.amount.data
         order.finished_at = datetime.combine(form.date.data, form.time.data)
         order.start_at = order.finished_at - timedelta(minutes=10)
-        order.cooking = form.cooking.data
-
-        if form.cooking.data == 1:
-            scheduler.remove_job(order.id)
-
         if datetime.now() >= order.start_at:
             flash("Not possible to change that order.\nPossible Errors:\n\t-Already cooked\n\t-No free slot")
 
@@ -155,16 +146,13 @@ def edit_order(id):
             db.session.add(order)
             db.session.commit()
 
-            
-            if form.cooking.data != 1:
-                print("[Old Job]", end=": ")
-                print(scheduler.get_job(order.id))
-                scheduler.get_job(order.id).reschedule('date', run_date=order.start_at) 
-                print("[New Job]", end=": ")
-                print(scheduler.get_job(order.id))
-            else:
-                pass
+            print("[Old Job]", end=": ")
+            print(scheduler.get_job(order.id))
 
+            scheduler.get_job(order.id).reschedule('date', run_date=order.start_at) 
+            
+            print("[New Job]", end=": ")
+            print(scheduler.get_job(order.id))
 
             flash('Your changes have been saved')
             return redirect( url_for('index'))
@@ -173,7 +161,6 @@ def edit_order(id):
         form.amount.data = order.amount
         form.date.data = order.finished_at
         form.time.data = order.finished_at
-        form.cooking.data = order.cooking
 
     return render_template('edit_order.html', title="Edit order", form=form, order=order)
         
