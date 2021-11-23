@@ -43,7 +43,7 @@ class CookBot():
     
     def cook(self, order):
         try:
-            print(order)
+            print(order)    
             #log_file = open("log_file.txt", "a")
             #log_file.write(str("Order: ", str(order)))
             #Change atrribute in database to cooking, so that you know that it is in preparation.
@@ -166,7 +166,7 @@ class CookBot():
 
                         # 10) drive the cooking pot up
                         print("[+]",self.name, ": Nun wird der Kochtopf hochgelassen...")
-                        self.linservo.UpStepDistance(20)
+                        self.linservo.UpStepDistance(15)
 
                         print("[+]",self.name, ": Nun sind wir fertig...")
                         break
