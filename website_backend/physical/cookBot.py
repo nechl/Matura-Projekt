@@ -127,10 +127,15 @@ class CookBot():
                 try:
                     if (old + timedelta(minutes=2)) <= datetime.now():
                         print("if statement with time comparison occured")
-                        if temp > temp_old:
-                            print("Old temperature is lower than the new one...")
-                        else:
-                            raise Exception("Oh No... temp sensor not working...")
+                        try: 
+                            temp = float(temp)
+                            temp_old = float(temp_old)
+                            if temp > temp_old:
+                                print("Old temperature is lower than the new one...")
+                            else:
+                                raise Exception("Oh No... temp sensor not working...")
+                        except BaseException as e:
+                            print(e)
                     else:
                         pass
 
