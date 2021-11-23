@@ -96,7 +96,11 @@ class CookBot():
                 if ser.in_waiting > 0:
                     temp_old = ser.readline().decode('utf-8').rstrip()
                     print("temp old", temp_old)
-
+                    try:
+                        temp_old = float(temp_old)
+                    except ValueError as e:
+                        pass
+                    
                     if isinstance(temp_old, float):
                         print("is instance check true")
                         old = datetime.now()
