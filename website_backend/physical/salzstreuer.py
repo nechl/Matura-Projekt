@@ -17,7 +17,7 @@ class salz_streuer():
 
     def mahlen(self):
         GPIO.output(self.salz_pin, GPIO.HIGH)
-        time.sleep(2)
+        time.sleep(3)
         GPIO.output(self.salz_pin, GPIO.LOW)
         
     def destroy(self):

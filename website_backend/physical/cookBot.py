@@ -93,6 +93,18 @@ class CookBot():
             ser = serial.Serial('/dev/ttyUSB0', 115200, timeout=1)
             ser.flush()
             while True:
+                if ser.in_waiting > 0:
+                    print("temp old", temp_old)
+                    temp_old = ser.readline().decode('utf-8').rstrip()
+                    if isinstance(temp_old, float):
+                        print("is instance check true")
+                        old = datetime.now()
+                        print(temp_old)
+                        break
+                    else:
+                        pass
+
+            while True:
                 # 4) Now check if the temperature is already high enough to start cooking the pasta...
            
                 if ser.in_waiting > 0:
@@ -108,6 +120,15 @@ class CookBot():
 
 
                 try:
+                    if (old + timedelta(minutes=2)) <= datetime.now():
+                        print("if statement with time comparison occured")
+                        if temp > temp_old:
+                            print("Old temperature is lower than the new one...")
+                        else:
+                            raise Exception("Oh No... temp sensor not working...")
+                    else:
+                        pass
+
                     if temp != '' and float(temp) > 85.0:
 
                         # 5) Now salt the water:
