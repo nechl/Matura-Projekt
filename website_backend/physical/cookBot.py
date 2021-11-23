@@ -134,7 +134,7 @@ class CookBot():
                             if temp > temp_old:
                                 print("Old temperature is lower than the new one...")
                             else:
-                                raise Exception("Oh No... temp sensor not working...")
+                                raise Exception("There isn't enough water inside the cooking pot")
                         except BaseException as e:
                             print(e)
                     else:

@@ -25,7 +25,7 @@ class salz_streuer():
         GPIO.cleanup()
     
 if __name__ == "__main__":
-    salz_streuer = salz_streuer(salz_pin)
+    salz_streuer = salz_streuer(18)
     while True:
         try:
             x = input("Mahlen[1] oder nichts tun... ")
@@ -33,5 +33,5 @@ if __name__ == "__main__":
                 salz_streuer.mahlen()
 		
         except KeyboardInterrupt:
-            motor_shield.destroy()
+            salz_streuer.destroy()
             pass
