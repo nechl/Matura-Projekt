@@ -94,8 +94,9 @@ class CookBot():
             ser.flush()
             while True:
                 if ser.in_waiting > 0:
-                    print("temp old", temp_old)
                     temp_old = ser.readline().decode('utf-8').rstrip()
+                    print("temp old", temp_old)
+
                     if isinstance(temp_old, float):
                         print("is instance check true")
                         old = datetime.now()
