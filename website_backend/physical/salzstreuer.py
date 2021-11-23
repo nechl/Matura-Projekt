@@ -29,7 +29,9 @@ if __name__ == "__main__":
     while True:
         try:
             x = input("Mahlen[1] oder nichts tun... ")
-            salz_streuer.mahlen() if x == "1" else print("nothing")
+            if x == "1":
+                salz_streuer.mahlen()
+		
         except KeyboardInterrupt:
             motor_shield.destroy()
             pass
