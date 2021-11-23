@@ -36,14 +36,14 @@ class PastaPortioner():
         for i in range(int(13 * (grams/100))):
             
             GPIO.output(self.dir1, GPIO.HIGH)
-            for i in range(1300):
+            for i in range(2000):
                 GPIO.output(self.step, GPIO.LOW)
                 time.sleep(self.delay)
                 GPIO.output(self.step, GPIO.HIGH)
                 time.sleep(self.delay)
 
             GPIO.output(self.dir1, GPIO.LOW)
-            for i in range(1300):
+            for i in range(1000):
                 GPIO.output(self.step, GPIO.LOW)
                 time.sleep(self.delay)
                 GPIO.output(self.step, GPIO.HIGH)
