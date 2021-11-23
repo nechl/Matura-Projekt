@@ -108,7 +108,7 @@ class CookBot():
                         break
                     else:
                         pass
-
+            checked = False
             while True:
                 # 4) Now check if the temperature is already high enough to start cooking the pasta...
            
@@ -125,7 +125,8 @@ class CookBot():
 
 
                 try:
-                    if (old + timedelta(minutes=2)) <= datetime.now():
+                    if (old + timedelta(minutes=2)) <= datetime.now() and checked == False:
+                        checked == True
                         print("if statement with time comparison occured")
                         try: 
                             temp = float(temp)
